@@ -25,29 +25,30 @@
 ##        mat: processed mat file within the defined box
 
 
-from netCDF4 import Dataset
+from netCDF4 import Dataset  # handle netCDF files
 import netCDF4
-import numpy as np
-import os
-from tqdm import tqdm
+import numpy as np  # deal with matrix
+import os  # deal with directory
+from tqdm import tqdm  # add processing bar
 
 
 
 def netcdf_reader():
-    
 
 
-    return ncDaata, ncid
+
+    return ncData, ncid
 
 
 
 def read_jasion2_PH_nc():
-    
-    
+
+
     return
 
 DATA_DIR = '/home/geodasie/Desktop/Data/'
 '''                                         225, 228'''
+
 def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = []
     if track < 10:
@@ -93,13 +94,13 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
                 fname =
                 [header, data] = read_jason2_PH_nc(fname)
 
-        
+
     return mat
 ##
 ######################### MAIN FUNCTION HERE ######################
 ##'''
-##def Altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track):   
-####    loading EGM 2008 provide height from Geoid    
+##def Altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track):
+####    loading EGM 2008 provide height from Geoid
 ##    if lonmin < 0:
 ##        lonmin = 360 + lonmin
 ##    else:
@@ -113,10 +114,10 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
 ##'''
 ####################################################################
 ##finding 20 Hz measurements inside the virtual station
-    
+
 def ell2utm(vlat, vlon):
      return N1, E1
-    
+
 def finding20Hz():
     if not len(seq):
         pp = 1
@@ -131,7 +132,7 @@ def finding20Hz():
                      if Dist <= SR:
                          if len(mat[i, 2][j, :]) == 179:
                              TmSri(pp, :) = mat[i, 2][j, :]
-                         
+
                          ic = 1
                      if ic == 1:
                          pp := pp + 1
@@ -144,17 +145,17 @@ def correcting_TS():
         g = 2
         TmSric(1, :) = TmSri(1, :)
         for i in range(2, m):
-            f = 
+            f =
 ##[N1, E1] = ell2utm(vlat*pi/180, vlon*pi/180)
 ##[m n] = size(mat)
 ##if isempty(mat)==0
 ##        pp=1;ic=0;
-##        
+##
 ##        TmSri=[];
 ##        for i=1:m
 ##            [s1 s2]=size(mat{i,2});
 ##            if s1>1
-##                
+##
 ##                for j=1:s1
 ##                    [N2,E2]=ell2utm(mat{i,2}(j,3)*pi/(180),mat{i,2}(j,2)*pi/(180));
 ##                    Dist=sqrt((N1-N2)^2+(E1-E2)^2);
@@ -162,7 +163,7 @@ def correcting_TS():
 ##                        if length(mat{i,2}(j,:))==179
 ##                            TmSri(pp,:)=mat{i,2}(j,:);
 ##                        end
-##                        
+##
 ##                        ic=1;
 ##                    end
 ##                    if ic==1
@@ -172,9 +173,9 @@ def correcting_TS():
 ##                end
 ##            end
 ##        end
-##        
-##        
-##     
+##
+##
+##
 ##        %% correcting the time series
 ##        if isempty(TmSri)==0
 ##            [m n]=size(TmSri);
@@ -197,7 +198,7 @@ def correcting_TS():
 
 
 
-    
+
 ##Geoid height computation
 from scipy.interpolate import griddata
 def Geoid_height():

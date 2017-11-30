@@ -13,7 +13,7 @@ import os
 ##print(ftp.retrlines('LIST')) # retrieve list
 ##download_ftp_tree(ftp, 'pub/data.nodc/jason2/gdr/s_gdr/', '/home/geodasie/Desktop/Data/')
 
-# nc download #
+# NetCDF download #
 
 ##version 1
 ##filenames = ftp.nlst()
@@ -56,8 +56,8 @@ import os
 ##
 """
 
-##    maybe download and extract cifar10 
-  
+##    maybe download and extract cifar10
+
 ##    dest_directory = FLAGS.data_dir
 ##    if not os.path.exists(data_directory):
 ##        os.makedirs(dest_directory)
