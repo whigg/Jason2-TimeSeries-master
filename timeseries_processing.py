@@ -27,14 +27,15 @@
 
 from netCDF4 import Dataset  # handle netCDF files
 import netCDF4
-import numpy as np  # deal with matrix
+import numpy as np  # array processing
 import os  # deal with directory
 from tqdm import tqdm  # add processing bar
 
 
 
 def netcdf_reader():
-
+    ncData = []
+    for i in range(1, len())
 
 
     return ncData, ncid

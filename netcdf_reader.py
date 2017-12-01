@@ -1,18 +1,66 @@
 from netCDF4 import Dataset
 import netCDF4
 import numpy as np
-' try to push again, why it doesnt work' 
+' try to push again, why it doesnt work'
 ##import pandas as pd
 
 data = Dataset('JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc','r')
-##print(len(data.variables.keys()))
-##for i in range(1, len(data.variables.keys())):
-##    sc = 1
-##    off = 0
-##
-##    for j in range():
+ncData = []
+ncData.append(list(data.variables.keys())) # first row of ncData
 
+for i in data.variables:
+#     print(i)
+    attval = []
+    try:
+        attval = data.variables[i].units
+    except AttributeError:
+        attval = None
 
+    for j in [attval]:
+        attname = []
+        if j == None:
+            attname = None
+        else:
+            attname = 'units'
+        print([i, attname, attval])
+
+print(len(data.variables.keys()))
+for i in range(1, len(data.variables.keys())):
+    sc = 1
+    off = 0
+
+    for j in range():
+
+for i in data.variables:
+    print(data.variables[i].shape)
+# #     print(i)
+#     shape = []
+#     try:
+#         sc = data.variables[i].scale_factor
+
+#     except AttributeError:
+#         sc = 1
+
+#     try:
+#         off = data.variables[i].add_offset
+#     except AttributeError:
+#         off = 0
+#     print([sc, off])
+#     a = data.variables[i].shape * sc + off
+#     print(shape)
+
+#     for j in [attval]:
+#         attname = []
+#         if j == None:
+#             attname = None
+#         else:
+#             attname = 'units'
+
+#         try:
+#         attval = data.variables[i].scale_factor
+#     except AttributeError:
+#         attval = None
+#     print(attval)
 
 ##print(data.variables.values())
 ##for i in data.variables:
@@ -31,16 +79,16 @@ for i in data.variables:
     if attname == 'units':
         ncData[i, 2] = attname
         ncData[i, 3] = attval
-            
-    
+
+
     if attname == 'scale_factor':
         sc = attval
-            
+
 
     if attname == 'add_offset':
         off = attval
-            
-     
+
+
 ##    mat = pd.DataFrame(np.random.randn(), index = [i], columns = [data.variables[i].units])
     ncData[i, 1] = i
     attname = None
@@ -62,7 +110,7 @@ int32 alt(time)
     scale_factor: 0.0001
     coordinates: lon lat
     comment: Altitude of satellite above the reference ellipsoid. Associated quality flag is orb_state_flag_diode for the OGDR products, orb_state_flag_rest for the IGDR and GDR products
-unlimited dimensions: 
+unlimited dimensions:
 current shape = (2963,)
 filling off
 '''
