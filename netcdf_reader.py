@@ -7,6 +7,104 @@ data = Dataset('JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc','r')
 ncData = []
 ncData.append(list(data.variables.keys())) # first row of ncData
 
+##lats = nc_fid.variables['lat'][:]  # extract/copy the data
+##lons = nc_fid.variables['lon'][:]
+
+ncData = []
+ncData.append(list(data.variables.keys())) # first row of ncData
+
+##for i in data.variables:
+###     print(i)
+##    time = data.variables[i][:]
+##    print(time)
+##    attval = []
+##    try:
+##        attval = data.variables[i].units
+##    except AttributeError:
+##        attval = None
+##
+##    for j in [attval]:
+##        attname = []
+##        if j == None:
+##            attname = None
+##        else:
+##            attname = 'units'
+##        print([i, attname, attval])
+
+##print(len(data.variables.keys()))
+##for i in range(1, len(data.variables.keys())):
+##    sc = 1
+##    off = 0
+##
+##    for j in range():
+
+for i in data.variables:
+
+ #     print(i)
+    shape = []
+    try:
+        sc = data.variables[i].scale_factor
+
+    except AttributeError:
+        sc = 1
+
+    try:
+        off = data.variables[i].add_offset
+    except AttributeError:
+        off = 0
+
+##    print(sc, off)
+    data_matrix = np.dot(data.variables[i][:], sc) + off
+    print(data_matrix)
+##    print(data_matrix.shape)
+
+#     for j in [attval]:
+#         attname = []
+#         if j == None:
+#             attname = None
+#         else:
+#             attname = 'units'
+
+#         try:
+#         attval = data.variables[i].scale_factor
+#     except AttributeError:
+#         attval = None
+#     print(attval)
+
+##print(data.variables.values())
+##for i in data.variables:
+##    print(i, data.variables[i].units, data.variables[i].shape)
+##    d = np.array(data.variables['pole_tide'], dtype=type(data.variables))
+##    print(d[:, 26, 36])
+
+##print(data.variables.values())
+##print(data.variables.type())
+
+
+##for i in data.variables:
+##    sc = 1  # scale_factor
+##    off = 0   # add_offset
+##
+##    if attname == 'units':
+##        ncData[i, 2] = attname
+##        ncData[i, 3] = attval
+##
+##
+##    if attname == 'scale_factor':
+##        sc = attval
+##
+##
+##    if attname == 'add_offset':
+##        off = attval
+##
+##
+####    mat = pd.DataFrame(np.random.randn(), index = [i], columns = [data.variables[i].units])
+##    ncData[i, 1] = i
+##    attname = None
+##    ncData[i, 4] = len(data.variables[i].shape)
+####    mat = [i, data.variables[i].units, data.variables[i].shape]
+##    print(attval)
+
 for i in data.variables:
 #     print(i)
     attval = []
