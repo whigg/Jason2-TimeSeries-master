@@ -33,19 +33,19 @@ from tqdm import tqdm  # add processing bar
 
 
 
-def netcdf_reader():
-    ncData = []
-    for i in range(1, len())
+# def netcdf_reader():
+#     ncData = []
+#     for i in range(1, len())
+#
+#
+#     return ncData, ncid
 
-
-    return ncData, ncid
-
-
-
-def read_jasion2_PH_nc():
-
-
-    return
+#
+#
+# def read_jasion2_PH_nc():
+#
+#
+#     return
 
 DATA_DIR = '/home/geodasie/Desktop/Data/'
 '''                                         225, 228'''
@@ -61,10 +61,11 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     else:
         t2 =''
 
-    k = 1
-    for i in tqdm(range(1, 320)):
+    k = 0
+    for i in tqdm(range(1, 327)):
+
         B = []
-        s = 1
+        s = 0
 
         if i < 10:
             i1 = '0'
@@ -75,7 +76,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         else:
             i2 = ''
 
-        id_track = 'JA2_cycle'+str(i1)+str(i2)+str(i)+'_track'+str(t1)+str(t2)+str(track)
+        id_track = 'JA2_GPS_2PdP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)
 
         if i < 10:
             name1 = '0'
@@ -86,34 +87,31 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         else:
             nn = ''
         name2 = str(nn)+str(i)
-        name = 'cycle'+str(name1)+str(name2)
-        path = os.path.join('/Desktop/Data/'+name)
+        name = 'cycle'+str(name1)+str(name2) # cycle number
+        path = os.path.join('/Altimetry data/JASON2/JASON_2_PH/' + name)
         d = os.listdir(path)
         for j in range(3, len(d)):
-            fndr = re.match(, id_track)
+            fndr = re.search(id_track, d(j,1).name) # possible bug area (re.match)
+                                                    # d(j,1).name???
             if not len(fndr):
-                fname =
-                [header, data] = read_jason2_PH_nc(fname)
+                fname = Dataset(d(j,1).name, 'r')
+#fname = Dataset('./nc_data/225/cycle000/JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc', 'r')
+                _, data = read_jason2_PH_nc(fname)
 
+                m, n = size(data)
+                for j in range(1,m):
+                    if data(j,3)<latmax and data(j,3)>latmin and data(j,2)<lonmax and data(j,2)>lonmin:
+                        B[s,:] = data(j,:)
+                        s = s + 1
+
+                if not len(B):
+                    mat[k, 1] = i
+                    mat[k, 2] = B
+                    k = k + 1
 
     return mat
-##
-######################### MAIN FUNCTION HERE ######################
-##'''
-##def Altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track):
-####    loading EGM 2008 provide height from Geoid
-##    if lonmin < 0:
-##        lonmin = 360 + lonmin
-##    else:
-##        pass
-##    if lonmax < 0:
-##        lonmax = 360 + lonmax
-##    else:
-##        pass
-####    mat = JA2_PH_crt(latmin, latmax, lonmin, lonmax, track)
-##    return mat, TS_final, Cor
-##'''
-####################################################################
+
+
 ##finding 20 Hz measurements inside the virtual station
 
 def ell2utm(vlat, vlon):
@@ -220,3 +218,29 @@ def Geoid_height():
 ##return
 
 ## geopysical correction:
+
+
+
+
+
+
+
+
+
+##
+######################### MAIN FUNCTION HERE ######################
+##'''
+def Altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track):
+##    loading EGM 2008 provide height from Geoid ????
+   if lonmin < 0:
+       lonmin = 360 + lonmin
+   # else:
+   #     pass
+   if lonmax < 0:
+       lonmax = 360 + lonmax
+   # else:
+   #     pass
+   mat = JA2_PH_crt(latmin, latmax, lonmin, lonmax, track)
+   # return mat, TS_final, Cor
+##'''
+####################################################################
