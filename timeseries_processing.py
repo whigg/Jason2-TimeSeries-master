@@ -328,7 +328,24 @@ def geophysical_correction():
         s = 1
         ind = 1
 
-        a = 
+        a =
+        y =
+        mo =
+        d =
+        for i in range(2, m):
+            a =
+            y[i, 1] =
+            mo[i, 1] =
+            d[i, 1] =
+            if d[i, 1] != d[i-1, 1] or i == m:
+                s = s + 1
+                ind[s, 1] = i
+                TS[s - 1, 1] = y[i - 1, 1]
+                TS[s - 1, 2] = mo[i - 1, 1]
+                TS[s - 1, 3] = d[i - 1, 1]
+
+                days =
+
 
     #     '''
     #     % Creating Time matrix
