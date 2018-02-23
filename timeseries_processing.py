@@ -1,6 +1,8 @@
 ## This function process satellite altimetry data for a given coordinate to
 ## obtain water level time series
 ##
+# function [TS, mat,TS_final,Cor] = Altprocess(vlat,vlon,SR,latmin, latmax, lonmin, lonmax, track)
+
 ##  input:
 ##       vlat: Virtual station's latitude [deg]
 ##       vlon: virtual station's longitude [deg]
@@ -31,7 +33,7 @@ import numpy as np  # array processing
 import os  # deal with directory
 from tqdm import tqdm  # add processing bar
 import utm
-
+import ftplib
 
 
 # def netcdf_reader():
@@ -50,7 +52,7 @@ import utm
 
 # DATA_DIR = '/home/geodasie/Desktop/Data/'
 # '''                                         225, 228'''
-
+                                                # 292
 def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = []
     if track < 10:
@@ -76,26 +78,41 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
             i2 = '0'
         else:
             i2 = ''
-
-        id_track = 'JA2_GPS_2PdP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)
-
+                # name from NOAA ftp  # cycle number                # track number
+        id_track = 'JA2_GPS_2PdP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)+'_'
+        # id_track = 'JA2_IPH_2PTP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)+'_'
+                # name from GIS database  # cycle number                # track number
         if i < 10:
             name1 = '0'
         else:
-            name1 =''
+            name1 = ''
         if i < 100:
             nn = '0'
         else:
             nn = ''
         name2 = str(nn)+str(i)
-        name = 'cycle'+str(name1)+str(name2) # cycle number
-        path = os.path.join('/Altimetry data/JASON2/JASON_2_PH/' + name)
-        d = os.listdir(path)
-        for j in range(3, len(d)):
-            fndr = re.search(id_track, d(j,1).name) # possible bug area (re.match)
-                                                    # d(j,1).name???
+        name = 'cycle_'+str(name1)+str(name2) # cycle number
+
+        """
+        Encountered problem: cant acquire data from GIS server
+
+        # path = os.path.join('//129.69.12.99/gis/Altimetry data/JASON2/JASON_2_PH/' + name)
+        # d = os.listdir(path)
+        """
+        # Alternative: try to fetch directly from NOAA ftp
+        ftp = ftplib.FTP('ftp.nodc.noaa.gov', 'anonymous', 'anonymous') # login as anonymous
+        ftp.cwd('pub/data.nodc/jason2/gdr/s_gdr' + name)    # change to target directory
+        d = ftp.nlst() # list the contents
+
+        for j in range(2, len(d)):
+                    #  why ignore the first 2 ncData (bzw. Start from 3)
+                    #  By python should change from 3 to 2
+                    #  Tourian wrote:     for j=3:length(d)
+
+            fndr = re.search(id_track, d[j]) # possible bug area (re.match)
+
             if not len(fndr):
-                fname = Dataset(d(j,1).name, 'r')
+                fname = Dataset(d[j], 'r')
 #fname = Dataset('./nc_data/225/cycle000/JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc', 'r')
                 _, data = read_jason2_PH_nc(fname)
 
@@ -110,6 +127,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
                     mat[k, 2] = B
                     k = k + 1
 
+    ftp.quit() # BE GENTLE !!!
     return mat
 
 
