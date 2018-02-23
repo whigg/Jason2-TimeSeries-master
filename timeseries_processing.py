@@ -345,6 +345,13 @@ def geophysical_correction():
                 TS[s - 1, 3] = d[i - 1, 1]
 
                 days =
+                if y[i-1, 1] == 1996 or y[i-1, 1] == 2000 or y[i-1, 1] == 2004 or y[i-1, 1] == 2008 or y[i-1, 1] == 2012 or y[i-1, 1] == 2016:
+                    le = 366
+                else:
+                    le = 365
+
+                TS[s-1, 4] = days / le + TS[s-1, 1]
+                TS[s-1, 5] = TmSric[i-1, 1]/86400 + data
 
 
     #     '''
