@@ -66,6 +66,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
 
     k = 0
     for i in tqdm(range(1, 327)):
+                 # NOAA ftp has no cycle304
 
         B = []
         s = 0
@@ -91,17 +92,16 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         else:
             nn = ''
         name2 = str(nn)+str(i)
-        name = 'cycle_'+str(name1)+str(name2) # cycle number
-
-        """
-        Encountered problem: cant acquire data from GIS server
-
-        # path = os.path.join('//129.69.12.99/gis/Altimetry data/JASON2/JASON_2_PH/' + name)
-        # d = os.listdir(path)
-        """
+        name = 'cycle'+str(name1)+str(name2) # cycle number
+        # """
+        # Encountered problem: cant acquire data from GIS server
+        #
+        # # path = os.path.join('//129.69.12.99/gis/Altimetry data/JASON2/JASON_2_PH/' + name)
+        # # d = os.listdir(path)
+        # """
         # Alternative: try to fetch directly from NOAA ftp
         ftp = ftplib.FTP('ftp.nodc.noaa.gov', 'anonymous', 'anonymous') # login as anonymous
-        ftp.cwd('pub/data.nodc/jason2/gdr/s_gdr' + name)    # change to target directory
+        ftp.cwd('pub/data.nodc/jason2/gdr/s_gdr/' + name)    # change to target directory
         d = ftp.nlst() # list the contents
 
         for j in range(2, len(d)):
@@ -109,9 +109,8 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
                     #  By python should change from 3 to 2
                     #  Tourian wrote:     for j=3:length(d)
 
-            fndr = re.search(id_track, d[j]) # possible bug area (re.match)
 
-            if not len(fndr):
+            if id_track in d[j]:
                 fname = Dataset(d[j], 'r')
 #fname = Dataset('./nc_data/225/cycle000/JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc', 'r')
                 _, data = read_jason2_PH_nc(fname)
