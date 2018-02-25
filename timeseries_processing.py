@@ -83,9 +83,7 @@ import ftplib
 #        # """
 #
 #        for i in range(2, len(d)):
-#                    #  why ignore the first 2 ncData (bzw. Start from 3)
-#                    #  By python should change from 3 to 2
-#                    #  Tourian wrote:     for j=3:length(d)
+
 #            if id_track in d[i]:
 #                fname = Dataset(d[i], 'r')
 #                _, data = read_jason2_PH_nc(fname)
@@ -124,7 +122,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         t2 = '0'
     else:
         t2 =''
-    for c in tqdm(range(1, 327)):
+    for c in tqdm(range(0, 327)):
         if c == 304:
             c = c + 1  # dataset have no cycle304
         if c < 10:
@@ -143,15 +141,17 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         for i in range(0, len(d)):
             if id_track in d[i]:
                 fname = Dataset(data_dir+d[i], 'r')
-
-
                 _, data = read_jason2_PH_nc(fname)
-                m, n = data.shape
-#                for i in range(2,m):
-#                    if data[i,2]<latmax and data[i,2]>latmin and data[i,1]<lonmax and data[i,1]>lonmin:
-#                        B.append(data[i,:])
-                for j in range(2,m):
-                    if data[j,2]<latmax and data[j,2]>latmin and data[j,1]<lonmax and data[j,1]>lonmin:
+                m, _ = data.shape
+                for j in range(0,m):
+                    #  why ignore the first 2 ncData (bzw. Start from 3)
+                    #  By python should change from 3 to 2, i set it as 0
+                    #  Tourian wrote:     for j=3:length(d)
+                    if data[j,1]<latmax and data[j,1]>latmin and data[j,2]<lonmax and data[j,2]>lonmin:
+                        # Lat varies from around 80 to 248, Lon varies from around -66 to 66
+                        # Tourian might got it wrong in column number of data matrix
+                        # The second column should be Lat, third should be Lon
+                        # in python data[:,1] = lat, data[:,2] = lon
                         B.append(data[j,:])
                 if B:
                     i_res.append(c)
@@ -161,7 +161,6 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
 #    return mat, B
     return mat
 #x = JA2_PH_crt(65, 66, -128, -127, 225)
-#x, y = JA2_PH_crt(82, 83, -67, -66, 225)
 #z = x[1]
 #z1 = z[1]
 #z11 = z[1][1]
@@ -175,9 +174,9 @@ E1, N1, _, _ = utm.from_latlon(vlat*pi/180, vlon*pi/180)
 m, n = mat.shape
 
 def correcting_TS():
-    if not len(seq):
+    if not len(mat):
         pp = 1
-        ic = 0
+        # ic = 0
         TmSri = []
         for i in range(1, m):
              s1, s2 = np.shape(mat[i, 2]) # mat[i, 2].shape
@@ -191,11 +190,12 @@ def correcting_TS():
                          if len(mat[i, 2][j, :]) == 179:
                              TmSri[pp, :] = mat[i, 2][j, :]
 
-                         ic = 1
-                     if ic == 1:
                          pp = pp + 1
+                     #     ic = 1
+                     # if ic == 1:
+                         # pp = pp + 1
 
-                     ic = 0
+                     # ic = 0
 
 
         if not len(TmSri):
