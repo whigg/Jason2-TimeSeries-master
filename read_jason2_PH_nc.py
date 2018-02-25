@@ -15,7 +15,7 @@ from netCDF4 import Dataset
 """
 #fname = Dataset('./nc_data/225/cycle000/JA2_GPS_2PdP000_225_20080710_211338_20080710_220951.nc', 'r')
 
-def read_jason2_PH_nc(fname): # name after Tourian's matlab code
+def read_jason2_PH_nc(fname):
     # Set lists for later use in forming dataframe 'ncData'
     Variables, Attname, Attval, DataMatrix, MatrixShape = [], [], [], [], []
 
