@@ -25,7 +25,7 @@
 ##        Time:
 ##               Time of measurements
 ##        mat: processed mat file within the defined box
-
+#%%
 from netCDF4 import Dataset  # handle netCDF files
 import netCDF4
 import numpy as np  # array processing
@@ -34,9 +34,88 @@ from tqdm import tqdm  # add processing bar
 import utm
 import ftplib
 
+#%%
+
+#################  Old version ########################
+#def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
+#    mat = []
+#    if track < 10:
+#        t1 = '0'
+#    else:
+#        t1 = ''
+#    if track < 100:
+#        t2 = '0'
+#    else:
+#        t2 =''
+#    k = 0
+#    for c in tqdm(range(1, 327)):
+#        B = []
+#        s = 0
+#        if c == 304:
+#            c = c + 1  # NOAA ftp has no cycle304
+#        if c < 10:
+#            c1 = '0'
+#        else:
+#            c1 = ''
+#        if c < 100:
+#            c2 = '0'
+#        else:
+#            c2 = ''
+#                # name from NOAA ftp  # cycle number                # track number
+#        id_track = 'JA2_GPS_2PdP'+str(c1)+str(c2)+str(c)+'_'+str(t1)+str(t2)+str(track)+'_'
+#            # name from GIS database  # cycle number                # track number
+#       # id_track = 'JA2_IPH_2PTP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)+'_'
+#        name = 'cycle'+str(c1)+str(c2)+str(c) # cycle number
+#        path = os.path.join('D:/jason2/gdr/s_gdr' + name)
+#        d = os.listdir(path)
+#
+#        # """
+#        # Encountered problem: cant acquire data from GIS server
+#        #
+#        # # path = os.path.join('//129.69.12.99/gis/Altimetry data/JASON2/JASON_2_PH/' + name)
+#        # # d = os.listdir(path)
+#
+#        # Alternative: try to fetch from NOAA ftp
+#        # But cannot read single *.nc directly from FTP
+#        # ftp = ftplib.FTP('ftp.nodc.noaa.gov', 'anonymous', 'anonymous') # login as anonymous
+#        # ftp.cwd('pub/data.nodc/jason2/gdr/s_gdr/' + name)    # change to target directory
+#        # d = ftp.nlst() # list the contents
+#        # """
+#
+#        for i in range(2, len(d)):
+#                    #  why ignore the first 2 ncData (bzw. Start from 3)
+#                    #  By python should change from 3 to 2
+#                    #  Tourian wrote:     for j=3:length(d)
+#            if id_track in d[i]:
+#                fname = Dataset(d[i], 'r')
+#                _, data = read_jason2_PH_nc(fname)
+#                m, n = data.shape
+#                for j in range(0,m):
+#                    if data[j,3]<latmax and data[j,3]>latmin and data[j,2]<lonmax and data[j,2]>lonmin:
+#                        B[s,:] = data[j,:]
+#                        s = s + 1
+#
+#                if not B:
+#                    mat[k, 1] = i
+#                    mat[k, 2] = B
+#                    k = k + 1
+#
+#    ftp.quit() # close connection with FTP
+#    return mat
+
+
+from tqdm import tqdm
+import os
+from netCDF4 import Dataset
+from read_jason2_PH_nc import read_jason2_PH_nc
+#import numpy as np
 
 def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = []
+    B = []
+    i_res = []
+    B_res = []
+
     if track < 10:
         t1 = '0'
     else:
@@ -45,12 +124,9 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         t2 = '0'
     else:
         t2 =''
-    k = 0
     for c in tqdm(range(1, 327)):
-        B = []
-        s = 0
         if c == 304:
-            c = c + 1  # NOAA ftp has no cycle304
+            c = c + 1  # dataset have no cycle304
         if c < 10:
             c1 = '0'
         else:
@@ -59,48 +135,37 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
             c2 = '0'
         else:
             c2 = ''
-                # name from NOAA ftp  # cycle number                # track number
         id_track = 'JA2_GPS_2PdP'+str(c1)+str(c2)+str(c)+'_'+str(t1)+str(t2)+str(track)+'_'
-            # name from GIS database  # cycle number                # track number
-       # id_track = 'JA2_IPH_2PTP'+str(i1)+str(i2)+str(i)+'_'+str(t1)+str(t2)+str(track)+'_'
         name = 'cycle'+str(c1)+str(c2)+str(c) # cycle number
-        path = os.path.join('D:/jason2/gdr/s_gdr' + name)
+        path = os.path.join('D:/jason2/gdr/s_gdr/' + name)
         d = os.listdir(path)
-
-        # """
-        # Encountered problem: cant acquire data from GIS server
-        #
-        # # path = os.path.join('//129.69.12.99/gis/Altimetry data/JASON2/JASON_2_PH/' + name)
-        # # d = os.listdir(path)
-
-        # Alternative: try to fetch from NOAA ftp
-        # But cannot read single *.nc directly from FTP
-        # ftp = ftplib.FTP('ftp.nodc.noaa.gov', 'anonymous', 'anonymous') # login as anonymous
-        # ftp.cwd('pub/data.nodc/jason2/gdr/s_gdr/' + name)    # change to target directory
-        # d = ftp.nlst() # list the contents
-        # """
-
-        for i in range(2, len(d)):
-                    #  why ignore the first 2 ncData (bzw. Start from 3)
-                    #  By python should change from 3 to 2
-                    #  Tourian wrote:     for j=3:length(d)
+        data_dir = 'D:/jason2/gdr/s_gdr/' + name + '/'
+        for i in range(0, len(d)):
             if id_track in d[i]:
-                fname = Dataset(d[i], 'r')
+                fname = Dataset(data_dir+d[i], 'r')
+
+
                 _, data = read_jason2_PH_nc(fname)
                 m, n = data.shape
-                for j in range(0,m):
-                    if data[j,3]<latmax and data[j,3]>latmin and data[j,2]<lonmax and data[j,2]>lonmin:
-                        B[s,:] = data[j,:]
-                        s = s + 1
-
-                if not B:
-                    mat[k, 1] = i
-                    mat[k, 2] = B
-                    k = k + 1
-
-    ftp.quit() # close connection with FTP
+#                for i in range(2,m):
+#                    if data[i,2]<latmax and data[i,2]>latmin and data[i,1]<lonmax and data[i,1]>lonmin:
+#                        B.append(data[i,:])
+                for j in range(2,m):
+                    if data[j,2]<latmax and data[j,2]>latmin and data[j,1]<lonmax and data[j,1]>lonmin:
+                        B.append(data[j,:])
+                if B:
+                    i_res.append(c)
+                    B_res.append(B)
+#    B = np.array(B)
+    mat = [i_res, B_res]
+#    return mat, B
     return mat
-
+#x = JA2_PH_crt(65, 66, -128, -127, 225)
+#x, y = JA2_PH_crt(82, 83, -67, -66, 225)
+#z = x[1]
+#z1 = z[1]
+#z11 = z[1][1]
+#%%
 
 ##finding 20 Hz measurements inside the virtual station
 
@@ -124,7 +189,7 @@ def correcting_TS():
                      if Dist <= SR:
                          #  length(mat{i,2}(j,:))
                          if len(mat[i, 2][j, :]) == 179:
-                             TmSri(pp, :) = mat[i, 2][j, :]
+                             TmSri[pp, :] = mat[i, 2][j, :]
 
                          ic = 1
                      if ic == 1:
@@ -136,7 +201,7 @@ def correcting_TS():
         if not len(TmSri):
             m, n = np.shape(TmSri) # TmSri.shape
             g = 2
-            TmSric(1, :) = TmSri(1, :)
+            TmSric[1, :] = TmSri(1, :)
             for i in range(2, m):
                 '''    ???????????
                     whats the output of f and how to set the condition'''
