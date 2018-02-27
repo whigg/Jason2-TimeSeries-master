@@ -144,9 +144,6 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
                 _, data = read_jason2_PH_nc(fname)
                 m, _ = data.shape
                 for j in range(0,m):
-                    #  why ignore the first 2 ncData (bzw. Start from 3)
-                    #  By python should change from 3 to 2, i set it as 0
-                    #  Tourian wrote:     for j=3:length(d)
                     if data[j,1]<latmax and data[j,1]>latmin and data[j,2]<lonmax and data[j,2]>lonmin:
                         # Lat varies from around 80 to 248, Lon varies from around -66 to 66
                         # Tourian might got it wrong in column number of data matrix
