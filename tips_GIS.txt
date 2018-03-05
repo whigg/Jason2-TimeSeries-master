@@ -1,10 +1,10 @@
-09.11.17 Elisabeth
+09.11.17
     <<python geospatial analysis essential>>;
     toolboxes: shapely/shapefile # deal with river(geometry) shape file;
     from ogr import osr & import pyproj # projection;
     pandas # archive & retrieve & lists;
     mpl_toolkits.basemap import Basemap; # plt basemap
 
-23.11.17 Omid
+23.11.17
     Lat: 65.4367 Lon: -127.5562 tracknum: 225 & 228;
     set as 99/-99 # sth not happened in matrix.
