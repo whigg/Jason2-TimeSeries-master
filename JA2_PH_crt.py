@@ -26,7 +26,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         t2 = '0'
     else:
         t2 =''
-    for c in tqdm(range(0, 327)):
+    for c in tqdm(range(0, 327), ascii=True, desc='Processing All Cycles'):
         if c == 304:
             c = c + 1  # dataset have no cycle304
         if c < 10:
@@ -46,7 +46,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         for i in range(0, len(d)):
             if id_track in d[i]:
                 fname = Dataset(data_dir+d[i], 'r')
-                _, data = read_jason2_PH_nc(fname)
+                header, data = read_jason2_PH_nc(fname)
                 m, _ = data.shape
 
                 for j in range(0,m):
@@ -63,6 +63,6 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = [x for x in mat if x is not None]
     mat = [x for x in mat if len(x) != 0]
 
-    return mat
+    return mat, header
 
-#mat = JA2_PH_crt(60,65,-125,-120,228)
+#mat = JA2_PH_crt(60, 65, -125, -120, 228)
