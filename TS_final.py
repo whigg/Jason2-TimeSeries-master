@@ -74,7 +74,7 @@ TmSric, header_used, mat = time_series()
 #    lon = TmSric['lon'].as_matrix()
 ##    if np.where(lon > 180):
 ##        lon = lon - 360
-
+#
 #    print('Interpolating griddata from EGM2008_5...')
 #    print('This might take a while...')
 #    height = scipy.interpolate.griddata(points, GH, (lon, lat), method='linear')
