@@ -139,10 +139,10 @@ if isempty(mat)==0
             end
         end
     else
-        TmSric=[];
+        c=[];
     end
 else
-    TmSric=[];
+    c=[];
 end
 
 
@@ -154,8 +154,8 @@ end
 %%Geoid height computation
 
 
-if isempty(TmSric)==0
-    lat=TmSric(:,2);
+if isempty(c)==0
+    lat=c(:,2);
     lon=TmSric(:,3);
     f=find( lon>180);
     lon(f)=lon(f)-360;
