@@ -136,7 +136,7 @@ def read_jason2_PH_nc(fname):
 #  Solved by check m = shape_matrix[0] and n != 20
 
     data_row_num = ncData.at[0, 'MatrixShape'][0] # Number of row in final data matrix
-    data = np.empty([data_row_num,138]) # create empty space for final data matrix
+    data = np.empty([data_row_num,179]) # create empty space for final data matrix
     header_usage = [] # creat empty space for recording variable usage
     s = 0 # set for write in final data matrix iteration
 
@@ -157,7 +157,7 @@ def read_jason2_PH_nc(fname):
             data[:, s] = ncData.at[i-1, 'DataMatrix']
             s = s + 1
         else:
-            header_usage.append(None) # mark unused as None
+            header_usage.append(np.nan) # mark unused as np.nan
 
     header_usage = pd.Series(header_usage) # change header_usage to pandas.Series
     header = pd.concat([header, header_usage], axis=1) # concatenate with header
@@ -190,10 +190,10 @@ Example usage:
 
 def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = []
-    if lonmin < 0:
-        lonmin = lonmin + 360
-    if lonmax < 0:
-        lonmax = lonmax + 360
+#    if lonmin < 0:
+#        lonmin = lonmin + 360
+#    if lonmax < 0:
+#        lonmax = lonmax + 360
 
     if track < 10:
         t1 = '0'
@@ -203,9 +203,9 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
         t2 = '0'
     else:
         t2 =''
-    for c in tqdm(range(0, 327), ascii=True, desc='Processing All Cycles'):
-        if c == 304:
-            c = c + 1  # dataset have no cycle304
+    for c in tqdm(range(1, 328), ascii=True, desc='Processing All Cycles'):
+#        if c == 304:
+#            c = c + 1  # dataset have no cycle304
         if c < 10:
             c1 = '0'
         else:
@@ -214,25 +214,20 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
             c2 = '0'
         else:
             c2 = ''
-        id_track = 'JA2_GPS_2PdP'+str(c1)+str(c2)+str(c)+'_'+str(t1)+str(t2)+str(track)+'_'
-        name = 'cycle'+str(c1)+str(c2)+str(c) # cycle number
-        path = os.path.join('D:/jason2/gdr/s_gdr/' + name)
+        id_track = 'JA2_IPH_2PTP'+str(c1)+str(c2)+str(c)+'_'+str(t1)+str(t2)+str(track)+'_'
+        name = 'cycle_'+str(c1)+str(c2)+str(c) # cycle number
+        path = os.path.join('D:/JASON2/JASON_2_PH/' + name)
         d = os.listdir(path)
-        data_dir = 'D:/jason2/gdr/s_gdr/' + name + '/'
+        data_dir = 'D:/JASON2/JASON_2_PH/' + name + '/'
         data_cycle = []
         for i in range(0, len(d)):
             if id_track in d[i]:
                 fname = Dataset(data_dir+d[i], 'r')
-                _, data = read_jason2_PH_nc(fname)
+                header, data = read_jason2_PH_nc(fname)
                 m, _ = data.shape
 
                 for j in range(0,m):
-                    if data[j,1]<latmax and data[j,1]>latmin and data[j,2]<lonmax and data[j,2]>lonmin:
-                        # Lat varies from around 80 to 248, Lon varies from around -66 to 66
-                        # Tourian might got it wrong with column number of 'mat' matrix
-                        # The second column should be Lat, third should be Lon
-                        # in python data[:,1] = lat, data[:,2] = lon
-                        # in matlab data[:,2] = lat, data[:,3] = lon
+                    if data[j,2]<latmax and data[j,2]>latmin and data[j,1]<lonmax and data[j,1]>lonmin:
                         data_cycle.append(data[j,:])
                 y = np.array(data_cycle)
         mat.append(y)
@@ -240,7 +235,7 @@ def JA2_PH_crt(latmin, latmax, lonmin, lonmax, track):
     mat = [x for x in mat if x is not None]
     mat = [x for x in mat if len(x) != 0]
 
-    return mat
+    return mat, header
 
 #%%
     
