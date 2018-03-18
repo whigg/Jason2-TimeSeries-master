@@ -28,10 +28,11 @@ def time_series():
 #    mat, header = JA2_PH_crt(8.95,9.2,-1.23,-1,46)
     mat, header = main.JA2_PH_crt(7.9,8.1,7.6,7.9,20)
 #    mat, header = JA2_PH_crt(65,66,-130,-127,228)
-    header_used = []
-    for n in range(len(header)):
-        if header[0][n] == 1:
-            header_used.append(header['Variables'][n])
+    
+#    header_used = []
+#    for n in range(len(header)):
+#        if header[0][n] == 1:
+#            header_used.append(header['Variables'][n])
 
     if mat:
         global TmSri # modify global var TmSri, 
@@ -50,12 +51,12 @@ def time_series():
     if TmSri.size:
         global TmSric
         rowone = [TmSri[0]]
-        TmSric = pd.DataFrame(np.concatenate((rowone, TmSri), axis=0), columns=header_used)
+        TmSric = pd.DataFrame(np.concatenate((rowone, TmSri), axis=0), columns=header)
         TmSric = TmSric.drop_duplicates(subset = ['time','lat','lon'])
   
-    return TmSric, header_used, mat
+    return TmSric, header, mat
 #    return TmSri, header_used, mat, header
-TmSric, header_used, mat = time_series()
+TmSric, header, mat = time_series()
 #%%
 ## def geoid_height(): # this might take 3 - 5 minutes.
 #import scipy 
@@ -74,7 +75,7 @@ TmSric, header_used, mat = time_series()
 #    lon = TmSric['lon'].as_matrix()
 ##    if np.where(lon > 180):
 ##        lon = lon - 360
-#
+
 #    print('Interpolating griddata from EGM2008_5...')
 #    print('This might take a while...')
 #    height = scipy.interpolate.griddata(points, GH, (lon, lat), method='linear')
@@ -182,53 +183,120 @@ if TmSric.size:
     SSH_ice3_c = Alt_1hz - Range_ice3_c
     
     # Creating Time Matrix
-    
-#    TSyear,TSmonth,TSday,TSyears,TSsec,TSku_mean,TSku_median,TSku_std=([] for x in range(8))
-#    TSc_mean,TSc_median,TSc_std,TSoce3ku_mean,TSoce3ku_median,TSoce3ku_std=([] for x in range(6))
-#    TSoce3c_mean,TSoce3c_median,TSoce3c_std,TSred3ku_mean,TSred3ku_median,TSred3ku_std=([] for x in range(6))
-#    TSred3c_mean,TSred3c_median,TSred3c_std,TSice3ku_mean,TSice3ku_median,TSice3ku_std=([] for x in range(6))
-
-#    TSice3c_mean,TSice3c_median,TSice3c_std=([] for x in range(3))
 
     s = 0
-    ind = [0]
-    TSyear,TSmonth,TSday,TStotal,SSH_ice3_ku_mean,SSH_ice3_ku_median,SSH_ice3_ku_std=([] for x in range(7))
+    ind = [0] # index
+    TSyear, TSmonth, TSday, TStotal, SSH_ku_mean, SSH_ku_median, SSH_ku_std=([] for x in range(7))
+    SSH_c_mean, SSH_c_median, SSH_c_std, SSH_oce3_ku_mean, SSH_oce3_ku_median, SSH_oce3_ku_std=([] for x in range(6))
+    SSH_oce3_c_mean, SSH_oce3_c_median, SSH_oce3_c_std, SSH_red3_ku_mean, SSH_red3_ku_median=([] for x in range(5))
+    SSH_red3_ku_std, SSH_red3_c_mean, SSH_red3_c_median, SSH_red3_c_std, SSH_ice3_ku_mean=([] for x in range(5))
+    SSH_ice3_ku_median, SSH_ice3_ku_std, SSH_ice3_c_mean, SSH_ice3_c_median, SSH_ice3_c_std=([] for x in range(5))
     y, mo, d = (np.zeros((m,1)) for x in range(3))
-    a0 = datetime.timedelta(seconds=TmSric['time'][0]) + datetime.datetime(2000,1,1)
+    
+    a0 = datetime.timedelta(seconds=TmSric['time'][0]) + datetime.datetime(2000, 1, 1)
     y[0] = a0.timetuple()[0]
     mo[0] = a0.timetuple()[1]
     d[0] = a0.timetuple()[2]
-#    sec = []
+
     for t in range(1,m):
-        a = datetime.timedelta(seconds=TmSric['time'][t]) + datetime.datetime(2000,1,1)
+        a = datetime.timedelta(seconds=TmSric['time'][t]) + datetime.datetime(2000, 1, 1)
         y[t] = a.timetuple()[0]
         mo[t] = a.timetuple()[1]
         d[t] = a.timetuple()[2]
         if d[t,0] != d[t-1,0] or t+1 == m:
             s = s + 1
             ind.append(t)
+            TStotal.append(datetime.timedelta(seconds=TmSric['time'][t-1]) + datetime.datetime(2000, 1, 1))
             TSyear.append(y[t-1,0])
             TSmonth.append(mo[t-1,0])
             TSday.append(d[t-1,0])
 
-#            sec = datetime.timedelta(seconds=TmSri[t-1,0]).total_seconds()
-            
-            TStotal.append(datetime.timedelta(seconds=TmSric['time'][t-1]) + datetime.datetime(2000,1,1))
-            
+            # SSH ku band
+            SSH_ku_mean.append(np.nanmean(SSH_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_ku_median.append(np.nanmedian(SSH_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_ku_std.append(np.std(SSH_ku[ind[s-1]:ind[s]-1], axis = 0))
+            # SSH c band 
+            SSH_c_mean.append(np.nanmean(SSH_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_c_median.append(np.nanmedian(SSH_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_c_std.append(np.std(SSH_c[ind[s-1]:ind[s]-1], axis = 0))
+            # SSH oce3 ku band
+            SSH_oce3_ku_mean.append(np.nanmean(SSH_oce3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_oce3_ku_median.append(np.nanmedian(SSH_oce3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_oce3_ku_std.append(np.std(SSH_oce3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            #SSH oce3 c band
+            SSH_oce3_c_mean.append(np.nanmean(SSH_oce3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_oce3_c_median.append(np.nanmedian(SSH_oce3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_oce3_c_std.append(np.std(SSH_oce3_c[ind[s-1]:ind[s]-1], axis = 0))
+            #SSH red3 ku band
+            SSH_red3_ku_mean.append(np.nanmean(SSH_red3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_red3_ku_median.append(np.nanmedian(SSH_red3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_red3_ku_std.append(np.std(SSH_red3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            #SSH red3 c band
+            SSH_red3_c_mean.append(np.nanmean(SSH_red3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_red3_c_median.append(np.nanmedian(SSH_red3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_red3_c_std.append(np.std(SSH_red3_c[ind[s-1]:ind[s]-1], axis = 0))
+            #SSH ice3 ku band
             SSH_ice3_ku_mean.append(np.nanmean(SSH_ice3_ku[ind[s-1]:ind[s]-1], axis = 0))
-            SSH_ice3_ku_median.append(np.nanmedian(SSH_ice3_ku[ind[s-1]:ind[s]-1], axis=0))
-            SSH_ice3_ku_std.append(np.std(SSH_ice3_ku[ind[s-1]:ind[s]-1], axis=0))
+            SSH_ice3_ku_median.append(np.nanmedian(SSH_ice3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_ice3_ku_std.append(np.std(SSH_ice3_ku[ind[s-1]:ind[s]-1], axis = 0))
+            #SSH ice3 c band
+            SSH_ice3_c_mean.append(np.nanmean(SSH_ice3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_ice3_c_median.append(np.nanmedian(SSH_ice3_c[ind[s-1]:ind[s]-1], axis = 0))
+            SSH_ice3_c_std.append(np.std(SSH_ice3_c[ind[s-1]:ind[s]-1], axis = 0))
             
             
-    cols = ['Date Detail','Year','Month','Day','SSH_ice3_ku_mean','SSH_ice3_ku_median','SSH_ice3_ku_std']
-    TS = pd.DataFrame({'Year': TSyear, 
-                       'Month': TSmonth, 
-                       'Day': TSday, 
-                       'Date Detail': TStotal,
-                       'SSH_ice3_ku_mean': SSH_ice3_ku_mean,
-                       'SSH_ice3_ku_median': SSH_ice3_ku_median,
-                       'SSH_ice3_ku_std': SSH_ice3_ku_std}, columns = cols)
+            
+    SSH_ku_mean = np.asarray(SSH_ku_mean).reshape((-1))
+    SSH_ku_median = np.asarray(SSH_ku_median).reshape((-1))
+    SSH_ku_std = np.asarray(SSH_ku_std).reshape((-1))
     
+    SSH_c_mean = np.asarray(SSH_c_mean).reshape((-1))
+    SSH_c_median = np.asarray(SSH_c_median).reshape((-1))
+    SSH_c_std = np.asarray(SSH_c_std).reshape((-1))
+    
+    SSH_oce3_ku_mean = np.asarray(SSH_oce3_ku_mean).reshape((-1))
+    SSH_oce3_ku_median = np.asarray(SSH_oce3_ku_median).reshape((-1))
+    SSH_oce3_ku_std = np.asarray(SSH_oce3_ku_std).reshape((-1))
+     
+    SSH_oce3_c_mean = np.asarray(SSH_oce3_c_mean).reshape((-1))
+    SSH_oce3_c_median = np.asarray(SSH_oce3_c_median).reshape((-1))
+    SSH_oce3_c_std = np.asarray(SSH_oce3_c_std).reshape((-1))
+     
+    SSH_red3_ku_mean = np.asarray(SSH_red3_ku_mean).reshape((-1))
+    SSH_red3_ku_median = np.asarray(SSH_red3_ku_median).reshape((-1))
+    SSH_red3_ku_std = np.asarray(SSH_red3_ku_std).reshape((-1))
+     
+    SSH_red3_c_mean = np.asarray(SSH_red3_c_mean).reshape((-1))
+    SSH_red3_c_median = np.asarray(SSH_red3_c_median).reshape((-1))
+    SSH_red3_c_std = np.asarray(SSH_red3_c_std).reshape((-1))
+     
+    SSH_ice3_ku_mean = np.asarray(SSH_ice3_ku_mean).reshape((-1))
+    SSH_ice3_ku_median = np.asarray(SSH_ice3_ku_median).reshape((-1))
+    SSH_ice3_ku_std = np.asarray(SSH_ice3_ku_std).reshape((-1))
+     
+    SSH_ice3_c_mean = np.asarray(SSH_ice3_c_mean).reshape((-1))
+    SSH_ice3_c_median = np.asarray(SSH_ice3_c_median).reshape((-1))
+    SSH_ice3_c_std = np.asarray(SSH_ice3_c_std).reshape((-1))     
+
+    cols = ['Date Detail','Year','Month','Day','SSH_ku_mean','SSH_ku_median','SSH_ku_std','SSH_c_mean',
+            'SSH_c_median','SSH_c_std','SSH_oce3_ku_mean','SSH_oce3_ku_median','SSH_oce3_ku_std',
+            'SSH_oce3_c_mean','SSH_oce3_c_median','SSH_oce3_c_std','SSH_red3_ku_mean','SSH_red3_ku_median',
+            'SSH_red3_ku_std','SSH_red3_c_mean','SSH_red3_c_median','SSH_red3_c_std','SSH_ice3_ku_mean',
+            'SSH_ice3_ku_median','SSH_ice3_ku_std','SSH_ice3_c_mean','SSH_ice3_c_median','SSH_ice3_c_std']
+    
+    TS = pd.DataFrame({'Date Detail':TStotal,'Year':TSyear,'Month':TSmonth,'Day':TSday,'SSH_ku_mean':SSH_ku_mean,
+                       'SSH_ku_median':SSH_ku_median,'SSH_ku_std':SSH_ku_std,'SSH_c_mean':SSH_c_mean,
+                       'SSH_c_median':SSH_c_median,'SSH_c_std':SSH_c_std,'SSH_oce3_ku_mean':SSH_oce3_ku_mean,
+                       'SSH_oce3_ku_median':SSH_oce3_ku_median,'SSH_oce3_ku_std':SSH_oce3_ku_std,
+                       'SSH_oce3_c_mean':SSH_oce3_c_mean,'SSH_oce3_c_median':SSH_oce3_c_median,
+                       'SSH_oce3_c_std':SSH_oce3_c_std,'SSH_red3_ku_mean':SSH_red3_ku_mean,
+                       'SSH_red3_ku_median':SSH_red3_ku_median,'SSH_red3_ku_std':SSH_red3_ku_std,
+                       'SSH_red3_c_mean':SSH_red3_c_mean,'SSH_red3_c_median':SSH_red3_c_median,
+                       'SSH_red3_c_std':SSH_red3_c_std,'SSH_ice3_ku_mean':SSH_ice3_ku_mean,
+                       'SSH_ice3_ku_median':SSH_ice3_ku_median,'SSH_ice3_ku_std':SSH_ice3_ku_std,
+                       'SSH_ice3_c_mean':SSH_ice3_c_mean,'SSH_ice3_c_median':SSH_ice3_c_median,
+                       'SSH_ice3_c_std':SSH_ice3_c_std}, columns = cols)
+#    TStest = TS
 #%%    
 #    TS = TS.set_index('Date Detail')
 #            days = datetime.timedelta(seconds=TmSric[t-1,0]) + datetime.datetime(2000,1,1) - datetime.datetime(int(y[t-1,0]),1,1)
