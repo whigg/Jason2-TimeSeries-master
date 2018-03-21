@@ -1,0 +1,4 @@
+<<python geospatial analysis essential>>;
+shapely/shapefile # deal with river(geometry) shape file;
+from ogr import osr & import pyproj # projection;
+mpl_toolkits.basemap import Basemap; # plt basemap
