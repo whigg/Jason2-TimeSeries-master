@@ -193,7 +193,7 @@ Notes:
 #TmSri = [] # Time Series
 #TmSric = [] # Corrected Time Series
 
-def mat_TSdataframe(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = None):
+def altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = None):
     mat = []  
     if track < 10:
         t1 = '0'
@@ -265,27 +265,27 @@ def mat_TSdataframe(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_d
         TmSric = pd.DataFrame(np.concatenate((rowone, TmSri), axis=0), columns=header_used)
         # drop duplicates rows if column 'time', 'lat' and 'lon' are same
         TmSric = TmSric.drop_duplicates(subset = ['time','lat','lon']) 
+#    
+#    # get geoid height, the scipy interpolation might take 3 - 5 minutes
+#    # read EGM2008_5.mat, please refer to Notes <2>
+#    EGM = spio.loadmat('EGM2008_5.mat') 
+#    # change XX, YY, GH to 1-dimensional for further interpolation
+#    XX = EGM['XX'].flatten()
+#    YY = EGM['YY'].flatten()
+#    GH = EGM['GH'].flatten()
+#    points = np.column_stack((XX,YY))
+#    
+#    if TmSric.size:
+#        latitude = TmSric['lat'].as_matrix()
+#        longitude = TmSric['lon'].as_matrix()
+#
+#    print('Interpolating griddata from EGM2008_5...')
+#    print('This might take a while, normally 3 - 5 minutes...')
+#    height = sp.interpolate.griddata(points, GH, (longitude, latitude), method='linear')
+#    TmSric['Geoid height'] = pd.Series(height, index = TmSric.index)
+#    print('Interpolation terminated')
     
-    # get geoid height, the scipy interpolation might take 3 - 5 minutes
-    # read EGM2008_5.mat, please refer to Notes <2>
-    EGM = spio.loadmat('EGM2008_5.mat') 
-    # change XX, YY, GH to 1-dimensional for further interpolation
-    XX = EGM['XX'].flatten()
-    YY = EGM['YY'].flatten()
-    GH = EGM['GH'].flatten()
-    points = np.column_stack((XX,YY))
-    
-    if TmSric.size:
-        latitude = TmSric['lat'].as_matrix()
-        longitude = TmSric['lon'].as_matrix()
-
-    print('Interpolating griddata from EGM2008_5...')
-    print('This might take a while, normally 3 - 5 minutes...')
-    height = sp.interpolate.griddata(points, GH, (longitude, latitude), method='linear')
-    TmSric['Geoid height'] = pd.Series(height, index = TmSric.index)
-    print('Interpolation terminated')
-    
-    return header, mat, TmSric
+    return TmSric, header, mat
 
 #%%
 
@@ -319,7 +319,7 @@ Notes:
     
 =============================================================================
 """
-    
+
 def time_series(TmSric): 
     if TmSric.size:
         m, _ = TmSric.shape
@@ -393,7 +393,8 @@ def time_series(TmSric):
                 DTCor_ku = 0
                 
             # Performing corrections
-            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['Geoid height'][i]
+#            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['Geoid height'][i]
+            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['geoid_EGM2008'][i]
             # Correction matrix
             Cor[i,:] = [InvBar_ku, SeSbias_ku, IonCor_ku, OcTide_ku, PoTide_ku, ETide_ku, WTCor_ku, DTCor_ku]
     
@@ -558,8 +559,9 @@ def time_series(TmSric):
 #                le = 366
 #            else:
 #                le = 365   
-#            TSyears.append(days/le+TSyear[s-1])       
-    
+#            TSyears.append(days/le+TSyear[s-1])     
+TmSric, _, _ = altprocess(8.0002, 7.749, 10000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir = 'D:/JASON2/JASON_2_PH/')    
+TS = time_series(TmSric)    
 TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 
 ##def TStcor(TS): # drop duplicates and get mean values from TS, return TSc
@@ -646,8 +648,8 @@ if rep == 1:
 #    f_ind2 = TScor['SSH_ice3_ku_median'].index[TScor['SSH_ice3_ku_median'].apply(np.isnan)]
     f_ind2 = pd.isnull(TScor).any(1).nonzero()[0]
     for i in range(0, len(f_ind2)):
-        TScor['SSH_ice3_ku_median'][f_ind2[i]] = M[int(TScor['Month'][f_ind2[i]])-1,3]
-                                                                            # column-2? = 3
+        TScor['SSH_ice3_ku_median'][f_ind2[i]] = M[int(TScor['Month'][f_ind2[i]])-1,21]
+                                                                            # column-2? = 
                                                                             # why column-2
 #return TScor
                                                                             
