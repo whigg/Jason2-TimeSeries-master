@@ -285,7 +285,7 @@ def altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = 
 #    TmSric['Geoid height'] = pd.Series(height, index = TmSric.index)
 #    print('Interpolation terminated')
     
-    return TmSric, header, mat
+    return TmSric
 
 #%%
 
@@ -328,7 +328,7 @@ def time_series(TmSric):
         # initialization
         Alt_1hz,Range_ku,Range_c,Range_oce3_ku,Range_oce3_c=(np.zeros((m,1)) for x in range(5))
         Range_red3_c,Range_ice3_ku,Range_ice3_c,Range_red3_ku=(np.zeros((m,1)) for x in range(4))
-        Cor = np.zeros((m,8)) # Correction parameters matrix
+        Cor = np.zeros((m,8)) # Matrix of correction parameters 
         
         for i in range(0, m):    
             # Altitude, 1Hz
@@ -336,17 +336,17 @@ def time_series(TmSric):
             
             ### 1Hz, Corrections ###    
             # Inverse barometric correction
-            if TmSric['inv_bar_corr'][i] != 32767 and TmSric['inv_bar_corr'][i] != -32768 and TmSric['inv_bar_corr'][i] != 2.147483647000000e+09:
+            if TmSric['inv_bar_corr'][i] != 32767 and TmSric['inv_bar_corr'][i] != -32768 and TmSric['inv_bar_corr'][i] != 2.147483647e+09:
                 InvBar_ku = TmSric['inv_bar_corr'][i]
             else:
                 InvBar_ku = 0
     
             # Sea state bias
-            if TmSric['sea_state_bias_ku'][i] != 32767 and TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647000000e+09:
+            if TmSric['sea_state_bias_ku'][i] != 32767 and TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647e+09:
                 SeSbias_ku = TmSric['sea_state_bias_ku'][i]
             else:
                 SeSbias_ku = 0
-    #        if TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647000000e+09:
+    #        if TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647e+09:
     #            SeSbias_ku = TmSric['sea_state_bias_ku'][i]
     ##        elif TmSric['sea_state_bias_ku'][i] >= 32767:
     ##            SeSbias_ku = 3.2767
@@ -354,40 +354,40 @@ def time_series(TmSric):
     #            SeSbias_ku = 0
     
             # Ionospheric correction
-            if TmSric['iono_corr_alt_ku'][i] != 32767 and TmSric['iono_corr_alt_ku'][i] != -32768 and TmSric['iono_corr_alt_ku'][i] != 2.147483647000000e+09:
+            if TmSric['iono_corr_alt_ku'][i] != 32767 and TmSric['iono_corr_alt_ku'][i] != -32768 and TmSric['iono_corr_alt_ku'][i] != 2.147483647e+09:
                 IonCor_ku = TmSric['iono_corr_alt_ku'][i]
             else:
                 IonCor_ku = 3.2767
     #            IonCor_ku = 0
     
             # Ocean tide
-            if TmSric['ocean_tide_sol1'][i] != 32767 and TmSric['ocean_tide_sol1'][i] != -32768 and TmSric['ocean_tide_sol1'][i] != 2.147483647000000e+09:
+            if TmSric['ocean_tide_sol1'][i] != 32767 and TmSric['ocean_tide_sol1'][i] != -32768 and TmSric['ocean_tide_sol1'][i] != 2.147483647e+09:
                 OcTide_ku = TmSric['ocean_tide_sol1'][i]
             else:
                 OcTide_ku = 0
     
             # Pole Tide
-            if TmSric['pole_tide'][i] != 32767 and TmSric['pole_tide'][i] != -32768 and TmSric['pole_tide'][i] != 2.147483647000000e+09:
+            if TmSric['pole_tide'][i] != 32767 and TmSric['pole_tide'][i] != -32768 and TmSric['pole_tide'][i] != 2.147483647e+09:
                 PoTide_ku = TmSric['pole_tide'][i]
             else:
                 PoTide_ku = 0
     
             # Earth tide
-            if TmSric['solid_earth_tide'][i] != 32767 and TmSric['solid_earth_tide'][i] != -32768 and TmSric['solid_earth_tide'][i] != 2.147483647000000e+09:
+            if TmSric['solid_earth_tide'][i] != 32767 and TmSric['solid_earth_tide'][i] != -32768 and TmSric['solid_earth_tide'][i] != 2.147483647e+09:
                 ETide_ku = TmSric['solid_earth_tide'][i]
             else:
                 ETide_ku = 0
     
             # Wet tropospheric correction
-            if TmSric['model_wet_tropo_corr'][i] != 32767 and TmSric['model_wet_tropo_corr'][i] != -32768 and TmSric['model_wet_tropo_corr'][i] != 2.147483647000000e+09:
+            if TmSric['model_wet_tropo_corr'][i] != 32767 and TmSric['model_wet_tropo_corr'][i] != -32768 and TmSric['model_wet_tropo_corr'][i] != 2.147483647e+09:
                 WTCor_ku = TmSric['model_wet_tropo_corr'][i]
-    #        if TmSric['rad_wet_tropo_corr'][i] != 32767 and TmSric['rad_wet_tropo_corr'][i] != -32768 and TmSric['rad_wet_tropo_corr'][i] != 2.147483647000000e+09:
+    #        if TmSric['rad_wet_tropo_corr'][i] != 32767 and TmSric['rad_wet_tropo_corr'][i] != -32768 and TmSric['rad_wet_tropo_corr'][i] != 2.147483647e+09:
     #            WTCor_ku = TmSric['rad_wet_tropo_corr'][i]
             else:
                 WTCor_ku = 0
     
             # Dry tropospheric correction
-            if TmSric['model_dry_tropo_corr'][i] != 32767 and TmSric['model_dry_tropo_corr'][i] != -32768 and TmSric['model_dry_tropo_corr'][i] != 2.147483647000000e+09:
+            if TmSric['model_dry_tropo_corr'][i] != 32767 and TmSric['model_dry_tropo_corr'][i] != -32768 and TmSric['model_dry_tropo_corr'][i] != 2.147483647e+09:
                 DTCor_ku = TmSric['model_dry_tropo_corr'][i]
             else:
                 DTCor_ku = 0
@@ -552,15 +552,8 @@ def time_series(TmSric):
     return TS
 
 #%%  
-#    TStest = TS
-#    TS = TS.set_index('Date Detail')
-#            days = datetime.timedelta(seconds=TmSric[t-1,0]) + datetime.datetime(2000,1,1) - datetime.datetime(int(y[t-1,0]),1,1)
-#            if y[t-1,0]==1996 or y[t-1,0]==2000 or y[t-1,0]==2004 or y[t-1,0]==2008 or y[t-1,0]==2012 or y[t-1,0]==2016:
-#                le = 366
-#            else:
-#                le = 365   
-#            TSyears.append(days/le+TSyear[s-1])     
-TmSric, _, _ = altprocess(8.0002, 7.749, 10000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir = 'D:/JASON2/JASON_2_PH/')    
+ 
+TmSric = altprocess(8.0002, 7.749, 1000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir = 'D:/JASON2/JASON_2_PH/')    
 TS = time_series(TmSric)    
 TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 
@@ -574,6 +567,7 @@ TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 #for i in range(0,len(TSc)):
 #    if 
 ## return TSc
+
 def Res_data(data):  
 
     m, n = data.shape
