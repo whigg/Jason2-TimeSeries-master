@@ -52,8 +52,8 @@ def download_onetrack(target_dir = None, cycle_start = 0, cycle_end = 327, track
         t2 =''
     filematch = '*_'+str(t1)+str(t2)+str(track)+'_*.nc'# find files match sinlge number of track
     for i in tqdm(range(cycle_start, cycle_end), ascii=True, desc='Downloading...'):
-        if i == 304:  # in noaa database have missing cycle 304, ignore
-            i = i + 1
+        if i == 304:  # in NOAA database cycle 304 is missing
+            i += 1
         if i < 10:
             i1 = '0'
         else:
@@ -87,7 +87,7 @@ matrix for later processing.
 
 Example usage:
     Input Parameters:
-        fname = read-in file with netCDF4.Dataset('filepath + *.nc', 'r')
+        file = read-in file with netCDF4.Dataset('filepath + *.nc', 'r')
                                                     'r' -- readable only
 
     Output Parameters:
@@ -97,7 +97,7 @@ Example usage:
 =============================================================================
 """
 
-def read_jason2_PH(fname):
+def read_jason2_PH(file):
     # Set lists for later use in dataframe 'ncData'
     Variables, Attname, Attval, DataMatrix, MatrixShape = ([] for x in range(5))
     
@@ -105,22 +105,22 @@ def read_jason2_PH(fname):
     # When variables have Attribute Units(Attval), set Attribute Name(Attname) as 'units'
     # Trace Matrix Shape(MatrixShape) for further calculation
     
-    for i in fname.variables:
+    for i in file.variables:
         Variables.append(i) # Save all Variables
         try:
-            attval = fname.variables[i].units # When Variables have units
+            attval = file.variables[i].units # When Variables have units
         except AttributeError:
             attval = None # When Variables don't have units, set Attval as None
         Attval.append(attval) # Save Attribute Units(Attval)
     
-        for j in [attval]: # Looking for values in Attribute Units(Attval)
+        for j in [attval]: # check value in Attribute Units(attval)
             if j == None:
                 attname = None # Attribute have no units, set Attname as None
             else:
                 attname = 'units' # Attribute have units, set Attname as 'units'
             Attname.append(attname) # Save Attribute Name(Attname)
     
-        get_data_matrix = fname.variables[i][:]
+        get_data_matrix = file.variables[i][:]
         DataMatrix.append(get_data_matrix) # Save Data Matrix(DataMatrix)
         MatrixShape.append(get_data_matrix.shape) # Save Matrix Shape(MatrixShape)
     
@@ -146,7 +146,7 @@ def read_jason2_PH(fname):
         if m == c: # choose the data, which rows match time matrix
             header_usage.append(1) # mark used as 1
             data[:, s] = ncData.at[i-1, 'DataMatrix']
-            s = s + 1
+            s += 1
         else:
             header_usage.append(np.nan) # mark unused as np.nan
     
@@ -160,23 +160,26 @@ def read_jason2_PH(fname):
 """
 =============================================================================
 
-Concatenate all useable tracks with their data matirx.
+Generate time series dataframe for further calculation.
 
-This executable is used to concatenate useable tracks with their data matrix,
-within the chosen window and individual track.
+This executable is used to generate corrected time series dataframe 
+within the chosen window and search radius for an individual track.
 
 Example usage:
     Input Parameters:
-        latmin = Minimum latitude of window
-        latmax = Maximum latitude of window
-        lonmin = Minimum longitude of window
-        lonmax = Maximum longitude of window
-        track = single track number
+        vlat = Virtual station's latitude [deg]
+        vlon = Virtual station's longitude [deg]
+        SR = Search radius for virtual station [m]
+        latmin = Minimum latitude of window [deg]
+        latmax = Maximum latitude of window [deg]
+        lonmin = Minimum longitude of window [deg]
+        lonmax = Maximum longitude of window [deg]
+        track = single track number 
         JA2_dir = '<User's data directory>' # Please give full access
                                             # e.g.: 'C:/JASON2/JASON_2_PH/'
 
     Output Parameters:
-        mat: List contains numpy array for later time series processing
+        TmSric: Corrected time series dataframe
 
 Notes:
     <1> If encounter 'UnboundLocalError: local variable referenced before assignment'
@@ -222,8 +225,8 @@ def altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = 
         data_cycle = []
         for i in range(0, len(d)):
             if id_track in d[i]: # match file name
-                fname = Dataset(data_dir+d[i], 'r')
-                header, data = read_jason2_PH(fname)
+                file = Dataset(data_dir+d[i], 'r')
+                header, data = read_jason2_PH(file)
                 m, _ = data.shape
 
                 for j in range(0,m):
@@ -253,7 +256,7 @@ def altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = 
                 for j in range(0, s):
                     E2, N2, _, _ = utm.from_latlon(mat[i][j][2], mat[i][j][1])
                     Dist = np.sqrt(np.square(N1 - N2) + np.square(E1 - E2))
-                    if Dist <= SR: # if distance shorter than search radious
+                    if Dist <= SR: # if distance shorter than search radius
                         if len(mat[i][j]) == 179:
                             TmSri.append(mat[i][j])
     TmSri = np.array(TmSri)
@@ -292,30 +295,17 @@ def altprocess(vlat, vlon, SR, latmin, latmax, lonmin, lonmax, track, JA2_dir = 
 """
 =============================================================================
 
-Concatenate all useable tracks with their data matirx.
+Generate corrected time series dataframe with time and Sea Surface Height(SSH).
 
-This executable is used to concatenate useable tracks with their data matrix,
-within the chosen window and individual track.
+This executable is used to generate dataframe with time information, Sea Surface
+Height mean, median and std for each retracker.
 
 Example usage:
     Input Parameters:
-        latmin = Minimum latitude of window
-        latmax = Maximum latitude of window
-        lonmin = Minimum longitude of window
-        lonmax = Maximum longitude of window
-        track = single track number
-        JA2_dir = '<User's data directory>' # Please give full access
-                                            # e.g.: 'C:/JASON2/JASON_2_PH/'
+        TmSric = output dataframe from function 'altprocess'
 
     Output Parameters:
-        mat: List contains numpy array for later time series processing
-
-Notes:
-    <1> If encounter 'UnboundLocalError: local variable referenced before assignment'
-    initialize global variables TmSri & TmSric before function 'corrected_time_series'
-    announce 'global TmSri&TmSric' in function itself
-    
-    <2> Please put 'EGM2008_5.mat' file and main.py in the same directory    
+        TS: dataframe contains time and SSH   
     
 =============================================================================
 """
@@ -328,7 +318,8 @@ def time_series(TmSric):
         # initialization
         Alt_1hz,Range_ku,Range_c,Range_oce3_ku,Range_oce3_c=(np.zeros((m,1)) for x in range(5))
         Range_red3_c,Range_ice3_ku,Range_ice3_c,Range_red3_ku=(np.zeros((m,1)) for x in range(4))
-        Cor = np.zeros((m,8)) # Matrix of correction parameters 
+#        Cor = np.zeros((m,8)) # Matrix of correction parameters 
+        Cor = np.zeros((m,4)) # Matrix of correction parameters 
         
         for i in range(0, m):    
             # Altitude, 1Hz
@@ -336,53 +327,46 @@ def time_series(TmSric):
             
             ### 1Hz, Corrections ###    
             # Inverse barometric correction
-            if TmSric['inv_bar_corr'][i] != 32767 and TmSric['inv_bar_corr'][i] != -32768 and TmSric['inv_bar_corr'][i] != 2.147483647e+09:
-                InvBar_ku = TmSric['inv_bar_corr'][i]
-            else:
-                InvBar_ku = 0
+#            if TmSric['inv_bar_corr'][i] != 32767 and TmSric['inv_bar_corr'][i] != -32768 and TmSric['inv_bar_corr'][i] != 2.147483647e+09:
+#                InvBar_ku = TmSric['inv_bar_corr'][i]
+#            else:
+#                InvBar_ku = 0
     
             # Sea state bias
             if TmSric['sea_state_bias_ku'][i] != 32767 and TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647e+09:
                 SeSbias_ku = TmSric['sea_state_bias_ku'][i]
             else:
                 SeSbias_ku = 0
-    #        if TmSric['sea_state_bias_ku'][i] != -32768 and TmSric['sea_state_bias_ku'][i] != 2.147483647e+09:
-    #            SeSbias_ku = TmSric['sea_state_bias_ku'][i]
-    ##        elif TmSric['sea_state_bias_ku'][i] >= 32767:
-    ##            SeSbias_ku = 3.2767
-    #        else:
-    #            SeSbias_ku = 0
     
             # Ionospheric correction
             if TmSric['iono_corr_alt_ku'][i] != 32767 and TmSric['iono_corr_alt_ku'][i] != -32768 and TmSric['iono_corr_alt_ku'][i] != 2.147483647e+09:
                 IonCor_ku = TmSric['iono_corr_alt_ku'][i]
             else:
-                IonCor_ku = 3.2767
-    #            IonCor_ku = 0
+                IonCor_ku = 0
     
             # Ocean tide
-            if TmSric['ocean_tide_sol1'][i] != 32767 and TmSric['ocean_tide_sol1'][i] != -32768 and TmSric['ocean_tide_sol1'][i] != 2.147483647e+09:
-                OcTide_ku = TmSric['ocean_tide_sol1'][i]
-            else:
-                OcTide_ku = 0
+#            if TmSric['ocean_tide_sol1'][i] != 32767 and TmSric['ocean_tide_sol1'][i] != -32768 and TmSric['ocean_tide_sol1'][i] != 2.147483647e+09:
+#                OcTide_ku = TmSric['ocean_tide_sol1'][i]
+#            else:
+#                OcTide_ku = 0
     
             # Pole Tide
-            if TmSric['pole_tide'][i] != 32767 and TmSric['pole_tide'][i] != -32768 and TmSric['pole_tide'][i] != 2.147483647e+09:
-                PoTide_ku = TmSric['pole_tide'][i]
-            else:
-                PoTide_ku = 0
+#            if TmSric['pole_tide'][i] != 32767 and TmSric['pole_tide'][i] != -32768 and TmSric['pole_tide'][i] != 2.147483647e+09:
+#                PoTide_ku = TmSric['pole_tide'][i]
+#            else:
+#                PoTide_ku = 0
     
             # Earth tide
-            if TmSric['solid_earth_tide'][i] != 32767 and TmSric['solid_earth_tide'][i] != -32768 and TmSric['solid_earth_tide'][i] != 2.147483647e+09:
-                ETide_ku = TmSric['solid_earth_tide'][i]
-            else:
-                ETide_ku = 0
+#            if TmSric['solid_earth_tide'][i] != 32767 and TmSric['solid_earth_tide'][i] != -32768 and TmSric['solid_earth_tide'][i] != 2.147483647e+09:
+#                ETide_ku = TmSric['solid_earth_tide'][i]
+#            else:
+#                ETide_ku = 0
     
             # Wet tropospheric correction
-            if TmSric['model_wet_tropo_corr'][i] != 32767 and TmSric['model_wet_tropo_corr'][i] != -32768 and TmSric['model_wet_tropo_corr'][i] != 2.147483647e+09:
-                WTCor_ku = TmSric['model_wet_tropo_corr'][i]
-    #        if TmSric['rad_wet_tropo_corr'][i] != 32767 and TmSric['rad_wet_tropo_corr'][i] != -32768 and TmSric['rad_wet_tropo_corr'][i] != 2.147483647e+09:
-    #            WTCor_ku = TmSric['rad_wet_tropo_corr'][i]
+#            if TmSric['model_wet_tropo_corr'][i] != 32767 and TmSric['model_wet_tropo_corr'][i] != -32768 and TmSric['model_wet_tropo_corr'][i] != 2.147483647e+09:
+#                WTCor_ku = TmSric['model_wet_tropo_corr'][i]
+            if TmSric['rad_wet_tropo_corr'][i] != 32767 and TmSric['rad_wet_tropo_corr'][i] != -32768 and TmSric['rad_wet_tropo_corr'][i] != 2.147483647e+09:
+                WTCor_ku = TmSric['rad_wet_tropo_corr'][i]
             else:
                 WTCor_ku = 0
     
@@ -394,9 +378,11 @@ def time_series(TmSric):
                 
             # Performing corrections
 #            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['Geoid height'][i]
-            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['geoid_EGM2008'][i]
+            Correction_ku = SeSbias_ku + IonCor_ku + WTCor_ku + DTCor_ku + TmSric['geoid_EGM2008'][i]
+#            Correction_ku = InvBar_ku + SeSbias_ku + IonCor_ku + OcTide_ku + PoTide_ku + ETide_ku + WTCor_ku + DTCor_ku + TmSric['geoid_EGM2008'][i]
             # Correction matrix
-            Cor[i,:] = [InvBar_ku, SeSbias_ku, IonCor_ku, OcTide_ku, PoTide_ku, ETide_ku, WTCor_ku, DTCor_ku]
+#            Cor[i,:] = [InvBar_ku, SeSbias_ku, IonCor_ku, OcTide_ku, PoTide_ku, ETide_ku, WTCor_ku, DTCor_ku]
+            Cor[i,:] = [SeSbias_ku, IonCor_ku, WTCor_ku, DTCor_ku]
     
             # range correction
             Range_ku[i, 0] = TmSric['range_ku'][i] + Correction_ku
@@ -445,7 +431,7 @@ def time_series(TmSric):
             d[t] = a.timetuple()[2]
             # append data under these conditions
             if d[t,0] != d[t-1,0] or t+1 == m:
-                s = s + 1 
+                s += 1
                 ind.append(t) # append index
                 
                 # append time lists
@@ -495,7 +481,7 @@ def time_series(TmSric):
                 SSH_ice3_c_std.append(np.std(SSH_ice3_c[ind[s-1]:ind[s]-1], axis = 0))
                 
                 
-        # reshape list as 1-dimensional array for dataframe        
+        # reshape list as 1-dimensional array for dataframe generation      
         SSH_ku_mean = np.asarray(SSH_ku_mean).reshape((-1))
         SSH_ku_median = np.asarray(SSH_ku_median).reshape((-1))
         SSH_ku_std = np.asarray(SSH_ku_std).reshape((-1))
@@ -553,8 +539,11 @@ def time_series(TmSric):
 
 #%%  
  
-TmSric = altprocess(8.0002, 7.749, 1000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir = 'D:/JASON2/JASON_2_PH/')    
-TS = time_series(TmSric)    
+TmSric = altprocess(8.0002, 7.749, 5000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir='D:/JASON2/JASON_2_PH/')
+TS = time_series(TmSric)
+TS_show = TS
+
+#%%    
 TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 
 ##def TStcor(TS): # drop duplicates and get mean values from TS, return TSc
@@ -568,10 +557,11 @@ TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 #    if 
 ## return TSc
 
-def Res_data(data):  
+def res_data(data):  
 
     m, n = data.shape
     residual = np.zeros((m, n))
+    pd.options.mode.chained_assignment = None
     
     if data.size:
         f1 = data.index[data['Month'] == 1].tolist(); f2 = data.index[data['Month'] == 2].tolist() 
@@ -615,38 +605,51 @@ def Res_data(data):
     return residual, M_Data, Mts
 
 #
-##def Outcor(TS,col,kr,rep):
-kr = 2.9
-rep = 1
-TScor = TS
-level = TS['SSH_ice3_ku_median']  # level = TS.iloc[:,col]
-_, M, _ = Res_data(TS)
-non_empty = 1
-while non_empty != 0:
-    level_resi, _, _ = Res_data(TScor[['Year','Month','SSH_ice3_ku_median']].copy())
-    o1 = np.where(level_resi[:,2] >= np.nanmedian(level_resi[:,2])+kr*np.nanstd(level_resi[:,2]))
-    o2 = np.where(level_resi[:,2] <= np.nanmedian(level_resi[:,2])-kr*np.nanstd(level_resi[:,2]))
-    o1 = np.asarray(o1)
-    o2 = np.asarray(o2)
-    o = np.concatenate((o1,o2), axis=1)
-    try: # when no values found
-        f_ind1 = np.argmax(level_resi[o,0]) # might be a problem
-        level.iloc[o[0,f_ind1]] = np.nan
-        TScor['SSH_ice3_ku_median'] = level
-    except ValueError:
-        non_empty = 0
+def outlier_correction(TS, col, kr, rep):
+#    kr = 2.9
+#    rep = 1
+#    col = 23
+    TS_outcor = TS
+    #level = TS['SSH_ice3_ku_median']  # level = TS.iloc[:,col]
+    level = TS.iloc[:, col]
+    _, M, _ = res_data(TS)
+    non_empty = 1
+    while non_empty != 0:
+        level_resi, _, _ = res_data(TS_outcor.iloc[:, [1, 2, col]].copy())
+        o1 = np.where(level_resi[:,2] >= np.nanmedian(level_resi[:,2])+kr*np.nanstd(level_resi[:,2]))
+        o2 = np.where(level_resi[:,2] <= np.nanmedian(level_resi[:,2])-kr*np.nanstd(level_resi[:,2]))
+    #    o1 = np.where(level_resi[:,2] >= np.median(level_resi[:,2])+kr*np.std(level_resi[:,2]))
+    #    o2 = np.where(level_resi[:,2] <= np.median(level_resi[:,2])-kr*np.std(level_resi[:,2]))
+        o1 = np.asarray(o1)
+        o2 = np.asarray(o2)
+        o = np.concatenate((o1,o2), axis=1)
+        try: # when no values found
+            f_ind1 = np.argmax(level_resi[o,0]) # might be a problem
+            level.iloc[o[0,f_ind1]] = np.nan
+            TS_outcor.iloc[:, col] = level
+        except ValueError:
+            non_empty = 0
+        
     
+    if rep == 1:
+        _, M, _ = res_data(TS_outcor)
+    #    f_ind2 = TS_outcor['SSH_ice3_ku_median'].index[TS_outcor['SSH_ice3_ku_median'].apply(np.isnan)]
+        f_ind2 = pd.isnull(TS_outcor).any(1).nonzero()[0]
+        for i in range(0, len(f_ind2)):
+    #        TS_outcor['SSH_ice3_ku_median'][f_ind2[i]] = M[int(TS_outcor['Month'][f_ind2[i]])-1,21]
+            TS_outcor.iloc[f_ind2[i], col] = M[int(TS_outcor['Month'][f_ind2[i]])-1, 21]
+                                                                                # column-2? = 
+                                                                                # why column-2
+                                                                                
+    TS_final = TS_outcor.iloc[:, [0, col, col + 1]].copy()
 
-if rep == 1:
-    _, M, _ = Res_data(TScor)
-#    f_ind2 = TScor['SSH_ice3_ku_median'].index[TScor['SSH_ice3_ku_median'].apply(np.isnan)]
-    f_ind2 = pd.isnull(TScor).any(1).nonzero()[0]
-    for i in range(0, len(f_ind2)):
-        TScor['SSH_ice3_ku_median'][f_ind2[i]] = M[int(TScor['Month'][f_ind2[i]])-1,21]
-                                                                            # column-2? = 
-                                                                            # why column-2
-#return TScor
+    return TS_outcor, TS_final
                                                                             
+TS_outcor, TS_final = outlier_correction(TS, col = 23, kr = 2.9, rep = 1)
+        # col = 26: SSH_ice3_c_median
+        #       25: SSH_ice3_c_mean
+        # col = 23: SSH_ice3_ku_median                                                                  
+        #       22: SSH_ice3_ku_mean
                                                                             
 #TS_t = Outcor(TS, 19, 2.9, 1);
 #s = find(TS_t(:,20) > 0.7);
@@ -654,11 +657,20 @@ if rep == 1:
 #TS_t(s,20) = nanmean(TS_t(s0,20));
 #TS_final = [TS_t(:,5) TS_t(:,19:20)];
 
-TS_final = TScor[['Date Detail','SSH_ice3_ku_median','SSH_ice3_ku_std']].copy()
+#TS_final = TS_outcor[['Date Detail','SSH_ice3_ku_median','SSH_ice3_ku_std']].copy()
 
 #%%
 import matplotlib.pyplot as plt
-height_res = TS_final['SSH_ice3_ku_median'].as_matrix()
+index1 = TS_final.iloc[:,2] > 0.7
+index1 = index1[index1].index
+index1 = index1.tolist()
+index2 = TS_final.iloc[:,2] < 0.7
+index2 = index2[index2].index
+index2 = index2.tolist()
+mean_value = np.nanmean(TS_final.iloc[index2, 2])
+TS_final.iloc[index1, 2] = mean_value
+height_res = TS_final.iloc[:, 1].as_matrix()
+#height_res = [0 if i > 100 else i for i in height_res]
 time_res = TS_final['Date Detail'].as_matrix()
 plt.plot(time_res,height_res)
 plt.show()
