@@ -16,7 +16,7 @@ import utm # Bidirectional UTM-WGS84 converter
 import scipy as sp
 import scipy.io as spio
 import datetime
-
+import matplotlib.pyplot as plt
 
 #%%
 """
@@ -539,12 +539,18 @@ def time_series(TmSric):
 
 #%%  
  
-TmSric = altprocess(8.0002, 7.749, 5000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir='D:/JASON2/JASON_2_PH/')
+#TmSric = altprocess(8.0002, 7.749, 5000, 7.9, 8.1, 7.6, 7.9, 20, JA2_dir='D:/JASON2/JASON_2_PH/') # Benue river
+TmSric = altprocess(48.402, 43.271, 5000, 48.33, 48.46, 43.15, 43.35, 83, JA2_dir='D:/JASON2/JASON_2_PH/') # Don river
+
+# Mackenzie river
+#TmSric = altprocess(65.902, 129.045, 5000, 65.86, 65.94, -129.12, -128.97, 251, JA2_dir='D:/JASON2/JASON_2_PH/')
+   
+#TmSric = altprocess(65.902, -129.045, 100000, 65, 66, -130, -127, 251, JA2_dir='D:/JASON2/JASON_2_PH/')
 TS = time_series(TmSric)
-TS_show = TS
+#TS_show = TS
 
 #%%    
-TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
+#TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
 
 ##def TStcor(TS): # drop duplicates and get mean values from TS, return TSc
 #_, n = TS.shape
@@ -637,7 +643,7 @@ def outlier_correction(TS, col, kr, rep):
         f_ind2 = pd.isnull(TS_outcor).any(1).nonzero()[0]
         for i in range(0, len(f_ind2)):
     #        TS_outcor['SSH_ice3_ku_median'][f_ind2[i]] = M[int(TS_outcor['Month'][f_ind2[i]])-1,21]
-            TS_outcor.iloc[f_ind2[i], col] = M[int(TS_outcor['Month'][f_ind2[i]])-1, 21]
+            TS_outcor.iloc[f_ind2[i], col] = M[int(TS_outcor['Month'][f_ind2[i]])-1, col-2]
                                                                                 # column-2? = 
                                                                                 # why column-2
                                                                                 
@@ -645,7 +651,9 @@ def outlier_correction(TS, col, kr, rep):
 
     return TS_outcor, TS_final
                                                                             
-TS_outcor, TS_final = outlier_correction(TS, col = 23, kr = 2.9, rep = 1)
+_, TS_final_ku = outlier_correction(TS, col = 23, kr = 2.9, rep = 1)
+_, TS_final_c = outlier_correction(TS, col = 26, kr = 2.9, rep = 1)
+
         # col = 26: SSH_ice3_c_median
         #       25: SSH_ice3_c_mean
         # col = 23: SSH_ice3_ku_median                                                                  
@@ -660,17 +668,43 @@ TS_outcor, TS_final = outlier_correction(TS, col = 23, kr = 2.9, rep = 1)
 #TS_final = TS_outcor[['Date Detail','SSH_ice3_ku_median','SSH_ice3_ku_std']].copy()
 
 #%%
-import matplotlib.pyplot as plt
-index1 = TS_final.iloc[:,2] > 0.7
-index1 = index1[index1].index
-index1 = index1.tolist()
-index2 = TS_final.iloc[:,2] < 0.7
-index2 = index2[index2].index
-index2 = index2.tolist()
-mean_value = np.nanmean(TS_final.iloc[index2, 2])
-TS_final.iloc[index1, 2] = mean_value
-height_res = TS_final.iloc[:, 1].as_matrix()
-#height_res = [0 if i > 100 else i for i in height_res]
-time_res = TS_final['Date Detail'].as_matrix()
-plt.plot(time_res,height_res)
+        
+#
+##def plot_ku_c():
+#height_res_ku = TS_final_ku.iloc[:, 1].as_matrix()
+#height_res_c = TS_final_c.iloc[:, 1].as_matrix()
+##height_res = [0 if i > 100 else i for i in height_res]
+#time_res = TS_final_ku['Date Detail'].as_matrix()
+#
+#plt.plot(time_res, height_res_ku, 'g', label = 'ice3 ku band') # plotting separately 
+#plt.plot(time_res, height_res_c, 'b', label = 'ice3 c band') # plotting separately
+#plt.ylabel('Water Level [m]', fontsize=11) 
+#plt.title('Don River (ice3 ku & c band)')
+##plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), shadow=True, ncol=2)
+#plt.legend()
+#plt.show()
+
+#%%
+#def plot_with_std():
+index1 = TS_final_ku.iloc[:,2] > 0.7
+index1 = index1[index1].index.tolist()
+#index1 = index1.tolist()
+index2 = TS_final_ku.iloc[:,2] < 0.7
+index2 = index2[index2].index.tolist()
+#index2 = index2.tolist()
+mean_value = np.nanmean(TS_final_ku.iloc[index2, 2])
+TS_final_ku.iloc[index1, 2] = mean_value
+
+height_res_ku = TS_final_ku.iloc[:, 1].as_matrix()
+height_res_ku_upper = height_res_ku + TS_final_ku.iloc[:, 2]
+height_res_ku_lower = height_res_ku - TS_final_ku.iloc[:, 2]
+time_res = TS_final_ku['Date Detail'].as_matrix()
+#time_res = TS_final_ku['Date Detail'].tolist()
+
+plt.plot(time_res, height_res_ku, 'g')
+#plt.plot(time_res, height_res_ku_upper, 'white')
+#plt.plot(time_res, height_res_ku_lower, 'white')
+plt.fill_between(time_res, height_res_ku_upper, height_res_ku_lower, facecolor='silver')
+plt.ylabel('Water Level [m]', fontsize=11) 
+plt.title('Don River')
 plt.show()
