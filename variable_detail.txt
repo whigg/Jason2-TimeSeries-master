@@ -1,0 +1,2429 @@
+Variable: OrderedDict([
+
+('time', <class 'netCDF4._netCDF4.Variable'>
+float64 time(time)
+    long_name: time (sec. since 2000-01-01)
+    units: seconds since 2000-01-01 00:00:00.0
+    standard_name: time
+    calendar: gregorian
+    tai_utc_difference: -33.0
+    leap_second: 0000-00-00 00:00:00
+    comment: [tai_utc_difference] is the difference between TAI and UTC reference time (seconds) for the first measurement of the data set. [leap_second] is the UTC time at which a leap second occurs in the data set, if any. After this UTC time, the tai_utc_difference is increased by 1 second.
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('lon', <class 'netCDF4._netCDF4.Variable'>
+int32 lon(time)
+    long_name: longitude
+    units: degrees_east
+    standard_name: longitude
+    scale_factor: 1e-06
+    comment: East longitude relative to Greenwhich meridian. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('lat', <class 'netCDF4._netCDF4.Variable'>
+int32 lat(time)
+    long_name: latitude
+    units: degrees_north
+    standard_name: latitude
+    scale_factor: 1e-06
+    comment: Positive latitude is North latitude, negative latitude is South latitude. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('shoreline_distance', <class 'netCDF4._netCDF4.Variable'>
+float64 shoreline_distance(time)
+    _FillValue: 1.84467440737e+19
+    long_name: distance to the nearest shoreline in meters
+    units: m
+    comment: Distance to the closest shoreline point, derived from GMT software High-Resolution coastline database. Positive values on oceans and major inland water bodies, negative or default values over continents.
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('surface_type', <class 'netCDF4._netCDF4.Variable'>
+int8 surface_type(time)
+    _FillValue: 127
+    long_name: surface type
+    flag_values: [0 1 2 3]
+    flag_meanings: ocean lake_enclosed_sea ice land
+    coordinates: lon lat
+    comment: Computed using a DTM2000 file: 0= open oceans or semi-enclosed seas; 1= enclosed seas or lakes; 2= continental ice; 3= land. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('alt_echo_type', <class 'netCDF4._netCDF4.Variable'>
+int8 alt_echo_type(time)
+    _FillValue: 127
+    long_name: altimeter echo type
+    flag_values: [0 1]
+    flag_meanings: ocean_like non_ocean_like
+    coordinates: lon lat
+    comment: The altimeter echo type is determined by testing the rms of the high rate range measurements against a threshold as well as the number of valid high rate range measurements against a minimum value
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('rad_surf_type', <class 'netCDF4._netCDF4.Variable'>
+int8 rad_surf_type(time)
+    _FillValue: 127
+    long_name: radiometer surface type
+    flag_values: [0 1]
+    flag_meanings: ocean land
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('qual_wf_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 qual_wf_ku(time)
+    _FillValue: 127
+    long_name: quality flag for the waveform in Ku band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = no DV gate , 1 = at least one DV gate 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('qual_wf_c', <class 'netCDF4._netCDF4.Variable'>
+int8 qual_wf_c(time)
+    _FillValue: 127
+    long_name: quality flag for the waveform in C band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = no DV gate , 1 = at least one DV gate 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('qual_rad_1hz_tb187', <class 'netCDF4._netCDF4.Variable'>
+int8 qual_rad_1hz_tb187(time)
+    _FillValue: 127
+    long_name: quality flag for 1 Hz radiometer data: 18.7 GHz brightness temperature
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('qual_rad_1hz_tb238', <class 'netCDF4._netCDF4.Variable'>
+int8 qual_rad_1hz_tb238(time)
+    _FillValue: 127
+    long_name: quality flag for 1 Hz radiometer data: 23.8 GHz brightness temperature
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('qual_rad_1hz_tb340', <class 'netCDF4._netCDF4.Variable'>
+int8 qual_rad_1hz_tb340(time)
+    _FillValue: 127
+    long_name: quality flag for 1 Hz radiometer data: 34 GHz brightness temperature
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('alt_state_flag_acq_mode', <class 'netCDF4._netCDF4.Variable'>
+int8 alt_state_flag_acq_mode(time)
+    _FillValue: 127
+    long_name: Altimeter state flag: acquisition mode
+    flag_values: [0 1 2]
+    flag_meanings: autonomous_acq/track autonomous_DIODEacq/track DIODE+DEM/track
+    coordinates: lon lat
+    comment: 0 = autonomous acquisition / tracking, 1 = autonomous DIODE acquisition / tracking, 2 = DIODE + Digital Elevation Model tracking
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('rain_flag', <class 'netCDF4._netCDF4.Variable'>
+int8 rain_flag(time)
+    _FillValue: 127
+    long_name: rain flag
+    flag_values: [0 1]
+    flag_meanings: no_rain rain
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ice_flag', <class 'netCDF4._netCDF4.Variable'>
+int8 ice_flag(time)
+    _FillValue: 127
+    long_name: ice flag
+    flag_values: [0 1]
+    flag_meanings: no_ice ice
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_oce3_ku(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the Ocean3 retracking in Ku Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_oce3_c(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the Ocean3 retracking in C band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_red3_ku(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the Red3 retracking in Ku Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_red3_c(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the Red3 retracking in C band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_ice1_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_ice1_ku(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the ICE1 retracking in Ku Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_ice1_c', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_ice1_c(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the ICE1 retracking in C band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_ice3_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_ice3_ku(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the ICE3 retracking in Ku Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('retracking_flag_ice3_c', <class 'netCDF4._netCDF4.Variable'>
+int8 retracking_flag_ice3_c(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the ICE3 retracking in C band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('svd_flag_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 svd_flag_ku(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the SVD filtering in Ku Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('svd_flag_c', <class 'netCDF4._netCDF4.Variable'>
+int8 svd_flag_c(time)
+    _FillValue: 127
+    long_name: PISTACH processing flag for the SVD filtering in C Band
+    flag_values: [0 1]
+    flag_meanings: Good Bad
+    coordinates: lon lat
+    comment: 0 = Valid; 1 = Not Valid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('alt', <class 'netCDF4._netCDF4.Variable'>
+int32 alt(time)
+    _FillValue: 2147483647
+    long_name: altitude of satellite
+    units: m
+    standard_name: height_above_reference_ellipsoid
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Altitude of satellite above the reference ellipsoid
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('orb_alt_rate', <class 'netCDF4._netCDF4.Variable'>
+int16 orb_alt_rate(time)
+    _FillValue: 32767
+    long_name: 1 Hz orbital altitude rate
+    units: m/s
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: The reference surface for the orbital altitude rate is the combined MSS/geoid surface. It is used to compute the Doppler correction on the altimeter range (doppler_corr_ku, doppler_corr_c)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 range_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band corrected altimeter range
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors corrections (modeled_instr_corr_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_c', <class 'netCDF4._netCDF4.Variable'>
+int32 range_c(time)
+    _FillValue: 2147483647
+    long_name: C band corrected altimeter range
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors corrections (modeled_instr_corr_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 range_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band corrected altimeter range. PISTACH Ocean3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors corrections (modeled_instr_corr_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 range_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: C band corrected altimeter range. PISTACH Ocean3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors corrections (modeled_instr_corr_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 range_red3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band corrected altimeter range. PISTACH Red3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors corrections (modeled_instr_corr_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 range_red3_c(time)
+    _FillValue: 2147483647
+    long_name: C band corrected altimeter range. PISTACH Red3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors corrections (modeled_instr_corr_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_ice3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 range_ice3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band corrected altimeter range. PISTACH Ice3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors corrections (modeled_instr_corr_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('range_ice3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 range_ice3_c(time)
+    _FillValue: 2147483647
+    long_name: C band corrected altimeter range. PISTACH Ice3 retracking
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors corrections (modeled_instr_corr_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_range_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 net_instr_corr_range_ku(time)
+    _FillValue: 2147483647
+    long_name: net instrumental correction on the Ku band range
+    units: m
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Sum of distance antenna-COG (cog_corr), USO drift_correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors correction (modeled_instr_corr_range_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_range_c', <class 'netCDF4._netCDF4.Variable'>
+int32 net_instr_corr_range_c(time)
+    _FillValue: 2147483647
+    long_name: net instrumental correction on the C band range
+    units: m
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Sum of distance antenna-COG (cog_corr), USO drift_correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors correction (modeled_instr_corr_range_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_range_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 net_instr_corr_range_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: net instrumental correction on the Ku band range. PISTACH: Ocean3 retracking
+    units: m
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Sum of distance antenna-COG (cog_corr), USO drift_correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors correction (modeled_instr_corr_range_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_range_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 net_instr_corr_range_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: net instrumental correction on the C band range. PISTACH: Ocean3 retracking
+    units: m
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Sum of distance antenna-COG (cog_corr), USO drift_correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors correction (modeled_instr_corr_range_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('model_dry_tropo_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 model_dry_tropo_corr(time)
+    _FillValue: 32767
+    long_name: model dry tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_dry_troposhere
+    source: European Center for Medium Range Weather Forecasting
+    institution: [mto_fiedls_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. A dry tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for dry tropospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('model_dry_tropo_corr_direct_sol', <class 'netCDF4._netCDF4.Variable'>
+int16 model_dry_tropo_corr_direct_sol(time)
+    _FillValue: 32767
+    long_name: model dry tropospheric correction, direct solution
+    units: m
+    standard_name: altimeter_range_correction_due_to_dry_troposhere
+    source: PISTACH
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. A dry tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for dry tropospheric range delays of the radar pulse. Direct solution: Surface height deduced from Jason-2 altimetric measurement.See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('model_wet_tropo_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 model_wet_tropo_corr(time)
+    _FillValue: 32767
+    long_name: model wet tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_wet_troposhere
+    source: European Center for Medium Range Weather Forecasting
+    institution: [mto_fiedls_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. A wet tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for wet tropospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('model_wet_tropo_corr_direct_sol', <class 'netCDF4._netCDF4.Variable'>
+int16 model_wet_tropo_corr_direct_sol(time)
+    _FillValue: 32767
+    long_name: model wet tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_wet_troposhere
+    source: PISTACH
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. A wet tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for wet tropospheric range delays of the radar pulse. Direct solution: Surface height deduced from Jason-2 altimetric measurement.See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('rad_wet_tropo_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 rad_wet_tropo_corr(time)
+    _FillValue: 32767
+    long_name: radiometer wet tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_wet_troposhere
+    source: [radiometer_sensor_name]
+    institution: [radiometer_sensor_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A wet tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for wet tropospheric range delays of the radar pulse
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('composite_wet_tropo_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 composite_wet_tropo_corr(time)
+    _FillValue: 32767
+    long_name: composite wet tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_wet_troposhere
+    source: PISTACH
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A wet tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for wet tropospheric range delays of the radar pulseComposite correction: mix between model and radiometer corrections, for ocean/coastal areas onlySee Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('decontaminated_wet_tropo_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 decontaminated_wet_tropo_corr(time)
+    _FillValue: 32767
+    long_name: land decontaminated wet tropospheric correction
+    units: m
+    standard_name: altimeter_range_correction_due_to_wet_troposhere
+    source: PISTACH
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A wet tropospheric correction must be added (negative value) to the instrument range to correct this range measurement for wet tropospheric range delays of the radar pulse. Land decontaminated correction: decontamination of the brightness temperatures before applying the retrieval algorithm. See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('iono_corr_alt_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 iono_corr_alt_ku(time)
+    _FillValue: 32767
+    long_name: altimeter ionospheric correction on Ku band
+    units: m
+    standard_name: altimeter_range_correction_due_to_ionosphere
+    source: [altimeter_sensor_name]
+    institution: [altimeter_sensor_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: An ionospheric correction must be added (negative value) to the instrument range to correct this range measurement for ionospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('iono_corr_gim_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 iono_corr_gim_ku(time)
+    _FillValue: 32767
+    long_name: GIM ionospheric correction on Ku band
+    units: m
+    standard_name: altimeter_range_correction_due_to_ionosphere
+    source: AD
+    institution: NASA/JPL
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: An ionospheric correction must be added (negative value) to the instrument range to correct this range measurement for ionospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('iono_corr_alt_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 iono_corr_alt_oce3_ku(time)
+    _FillValue: 32767
+    long_name: altimeter ionospheric correction on Ku band. PISTACH Ocean3 retracking
+    units: m
+    standard_name: altimeter_range_correction_due_to_ionosphere
+    source: [altimeter_sensor_name]
+    institution: [altimeter_sensor_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: An ionospheric correction must be added (negative value) to the instrument range to correct this range measurement for ionospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('filtered_iono_corr_alt_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 filtered_iono_corr_alt_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Filtered altimeter ionospheric correction on Ku band. PISTACH Ocean3 retracking
+    units: m
+    standard_name: altimeter_range_correction_due_to_ionosphere
+    source: [altimeter_sensor_name]
+    institution: [altimeter_sensor_institution]
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: An ionospheric correction must be added (negative value) to the instrument range to correct this range measurement for ionospheric range delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sea_state_bias_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 sea_state_bias_ku(time)
+    _FillValue: 32767
+    long_name: sea state bias correction in Ku band
+    units: m
+    standard_name: sea_surface_height_bias_due_to_sea_surface_roughness
+    source: Empirical solution fitted on Jason-1 GDR_C data
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A sea state bias correction must be added (negative value) to the instrument range to correct this range measurement for sea state delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sea_state_bias_c', <class 'netCDF4._netCDF4.Variable'>
+int16 sea_state_bias_c(time)
+    _FillValue: 32767
+    long_name: sea state bias correction in C band
+    units: m
+    standard_name: sea_surface_height_bias_due_to_sea_surface_roughness
+    source: Empirical solution fitted on Jason-1 GDR_C data
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A sea state bias correction must be added (negative value) to the instrument range to correct this range measurement for sea state delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sea_state_bias_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 sea_state_bias_oce3_ku(time)
+    _FillValue: 32767
+    long_name: sea state bias correction in Ku band. PISTACH: Ocean3 retracking
+    units: m
+    standard_name: sea_surface_height_bias_due_to_sea_surface_roughness
+    source: Empirical solution fitted on Jason-1 GDR_C data
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A sea state bias correction must be added (negative value) to the instrument range to correct this range measurement for sea state delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sea_state_bias_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 sea_state_bias_oce3_c(time)
+    _FillValue: 32767
+    long_name: sea state bias correction in C band. PISTACH: Ocean3 retracking
+    units: m
+    standard_name: sea_surface_height_bias_due_to_sea_surface_roughness
+    source: Empirical solution fitted on Jason-1 GDR_C data
+    institution: CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: A sea state bias correction must be added (negative value) to the instrument range to correct this range measurement for sea state delays of the radar pulse. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected significant waveheight
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_c', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_c(time)
+    _FillValue: 32767
+    long_name: C band corrected significant waveheight
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected significant waveheight. PISTACH Ocean3 retracking
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_oce3_c(time)
+    _FillValue: 32767
+    long_name: C band corrected significant waveheight. PISTACH Ocean3 retracking
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_red3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected significant waveheight. PISTACH Red3 retracking
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('swh_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 swh_red3_c(time)
+    _FillValue: 32767
+    long_name: C band corrected significant waveheight. PISTACH Red3 retracking
+    units: m
+    standard_name: sea_surface_wave_significant_height
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: All instrumental corrections included, i.e. modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_swh_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_swh_ku(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on Ku band significant waveheight
+    units: m
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: Sum of modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_swh_c', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_swh_c(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on C band significant waveheight
+    units: m
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: Sum of modeled instrumental errors correction (modeled_instr_corr_swh_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_swh_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_swh_oce3_ku(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on Ku band significant waveheight. PISTACH: Ocean3 retracking
+    units: m
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: Sum of modeled instrumental errors correction (modeled_instr_corr_swh_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_swh_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_swh_oce3_c(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on C band significant waveheight. PISTACH: Ocean3 retracking
+    units: m
+    scale_factor: 0.001
+    coordinates: lon lat
+    comment: Sum of modeled instrumental errors correction (modeled_instr_corr_swh_c) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sig0_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 sig0_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected backscatter coefficient
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: All instrumental corrections included, excepted the system bias, i.e. AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_ku), modeled instrumental errors correction (modeled_instr_corr_sig0_ku) and atmospheric attenuation (atmos_corr_sig0_ku). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sig0_c', <class 'netCDF4._netCDF4.Variable'>
+int16 sig0_c(time)
+    _FillValue: 32767
+    long_name: C band corrected backscatter coefficient
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: All instrumental corrections included, excepted the system bias, i.e. AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_c), modeled instrumental errors correction (modeled_instr_corr_sig0_c) and atmospheric attenuation (atmos_corr_sig0_c)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sig0_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 sig0_red3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected backscatter coefficient. PISTACH Red3 retracking
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: All instrumental corrections included, excepted the system bias, i.e. AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_ku), modeled instrumental errors correction (modeled_instr_corr_sig0_ku) and atmospheric attenuation (atmos_corr_sig0_ku). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('sig0_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 sig0_red3_c(time)
+    _FillValue: 32767
+    long_name: C band corrected backscatter coefficient. PISTACH Red3 retracking
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: All instrumental corrections included, excepted the system bias, i.e. AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_ku), modeled instrumental errors correction (modeled_instr_corr_sig0_ku) and atmospheric attenuation (atmos_corr_sig0_ku). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('agc_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 agc_ku(time)
+    _FillValue: 32767
+    long_name: Ku band corrected AGC
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: AGC is corrected for instrumental errors due to the imperfections of the on-board attenuators
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('agc_c', <class 'netCDF4._netCDF4.Variable'>
+int16 agc_c(time)
+    _FillValue: 32767
+    long_name: C band corrected AGC
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: AGC is corrected for instrumental errors due to the imperfections of the on-board attenuators
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_sig0_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_sig0_ku(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on Ku backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Sum of AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_ku) and modeled instrumental errors correction (modeled_instr_corr_sig0_ku) - system bias not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_sig0_c', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_sig0_c(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on C backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Sum of AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_c) and modeled instrumental errors correction (modeled_instr_corr_sig0_c) - system bias not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_sig0_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_sig0_oce3_ku(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on Ku backscatter coefficient. PISTACH: Ocean3 retracking
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Sum of AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_ku) and modeled instrumental errors correction (modeled_instr_corr_sig0_ku) - system bias not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('net_instr_corr_sig0_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 net_instr_corr_sig0_oce3_c(time)
+    _FillValue: 32767
+    long_name: net instrumental correction on C backscatter coefficient. PISTACH: Ocean3 retracking
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Sum of AGC instrumental errors correction, internal calibration correction (internal_corr_sig0_c) and modeled instrumental errors correction (modeled_instr_corr_sig0_c) - system bias not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('atmos_corr_sig0_ku', <class 'netCDF4._netCDF4.Variable'>
+int8 atmos_corr_sig0_ku(time)
+    _FillValue: 127
+    long_name: atmospheric attenuation correction on Ku band backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('atmos_corr_sig0_c', <class 'netCDF4._netCDF4.Variable'>
+int8 atmos_corr_sig0_c(time)
+    _FillValue: 127
+    long_name: atmospheric attenuation correction on C band backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('off_nadir_angle_wf_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 off_nadir_angle_wf_ku(time)
+    _FillValue: 32767
+    long_name: square of the off nadir angle computed from Ku waveforms
+    units: degrees^2
+    scale_factor: 0.0001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('off_nadir_angle_wf_oce3_svd_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 off_nadir_angle_wf_oce3_svd_ku(time)
+    _FillValue: 32767
+    long_name: square of the off nadir angle computed from Ku waveforms. PISTACH: SVD and Ocean3 retracking
+    units: degrees^2
+    scale_factor: 0.0001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('off_nadir_angle_wf_oce3_svd_c', <class 'netCDF4._netCDF4.Variable'>
+int16 off_nadir_angle_wf_oce3_svd_c(time)
+    _FillValue: 32767
+    long_name: square of the off nadir angle computed from C waveforms. PISTACH: SVD and Ocean3 retracking
+    units: degrees^2
+    scale_factor: 0.0001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tb_187', <class 'netCDF4._netCDF4.Variable'>
+int16 tb_187(time)
+    _FillValue: 32767
+    long_name: 18.7 GHz main beam brightness temperature
+    units: K
+    standard_name: surface_brightness_temperature
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Brightness temperatures are unsmoothed (along-track averaging has not been performed on the brightness temperatures)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tb_238', <class 'netCDF4._netCDF4.Variable'>
+int16 tb_238(time)
+    _FillValue: 32767
+    long_name: 23.8 GHz main beam brightness temperature
+    units: K
+    standard_name: surface_brightness_temperature
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Brightness temperatures are unsmoothed (along-track averaging has not been performed on the brightness temperatures)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tb_340', <class 'netCDF4._netCDF4.Variable'>
+int16 tb_340(time)
+    _FillValue: 32767
+    long_name: 34 GHz main beam brightness temperature
+    units: K
+    standard_name: surface_brightness_temperature
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Brightness temperatures are unsmoothed (along-track averaging has not been performed on the brightness temperatures)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('land_prop_c187', <class 'netCDF4._netCDF4.Variable'>
+int16 land_prop_c187(time)
+    _FillValue: 32767
+    long_name: Land proportion in the 18.7 GHz main beam footprint
+    units: %
+    standard_name: land_proportion
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: comuputed from the convolution of AMR antenna pattern with a global 1/10 degree land-sea mask
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('land_prop_c238', <class 'netCDF4._netCDF4.Variable'>
+int16 land_prop_c238(time)
+    _FillValue: 32767
+    long_name: Land proportion in the 23.8 GHz main beam footprint
+    units: %
+    standard_name: land_proportion
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: comuputed from the convolution of AMR antenna pattern with a global 1/10 degree land-sea mask
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('land_prop_c340', <class 'netCDF4._netCDF4.Variable'>
+int16 land_prop_c340(time)
+    _FillValue: 32767
+    long_name: Land proportion in the 34.0 GHz main beam footprint
+    units: %
+    standard_name: land_proportion
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: comuputed from the convolution of AMR antenna pattern with a global 1/10 degree land-sea mask
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mss1', <class 'netCDF4._netCDF4.Variable'>
+int32 mss1(time)
+    _FillValue: 2147483647
+    long_name: mean sea surface height above reference ellipsoid
+    units: m
+    source: CLS01
+    institution: CLS
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mss2', <class 'netCDF4._netCDF4.Variable'>
+int32 mss2(time)
+    _FillValue: 2147483647
+    long_name: mean sea surface height above reference ellipsoid
+    units: m
+    source: GOCINA
+    institution: CLS
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mss3', <class 'netCDF4._netCDF4.Variable'>
+int32 mss3(time)
+    _FillValue: 2147483647
+    long_name: mean sea surface height above reference ellipsoid
+    units: m
+    source: DNSC08
+    institution: DNSC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('err_mss1', <class 'netCDF4._netCDF4.Variable'>
+int32 err_mss1(time)
+    _FillValue: 2147483647
+    long_name: PISTACH: Error on the mean sea surface height above reference ellipsoid.
+    units: m
+    source: CLS01
+    institution: CLS
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('err_mss2', <class 'netCDF4._netCDF4.Variable'>
+int32 err_mss2(time)
+    _FillValue: 2147483647
+    long_name: PISTACH: Error on the mean sea surface height above reference ellipsoid
+    units: m
+    source: GOCINA
+    institution: CLS
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('err_mss3', <class 'netCDF4._netCDF4.Variable'>
+int32 err_mss3(time)
+    _FillValue: 2147483647
+    long_name: PISTACH: Error on mean sea surface height above reference ellipsoid
+    units: m
+    source: DNSC08
+    institution: DNSC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mean_topography1', <class 'netCDF4._netCDF4.Variable'>
+int32 mean_topography1(time)
+    _FillValue: 2147483647
+    long_name: mean dynamic topography above geoid
+    units: m
+    source: Rio 05
+    institution: CLS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mean_topography2', <class 'netCDF4._netCDF4.Variable'>
+int32 mean_topography2(time)
+    _FillValue: 2147483647
+    long_name: mean dynamic topography above geoid
+    units: m
+    source: Rio 07 MEDSEA
+    institution: CLS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('geoid_EGM96', <class 'netCDF4._netCDF4.Variable'>
+int32 geoid_EGM96(time)
+    _FillValue: 2147483647
+    long_name: EGM96 geoid height
+    units: m
+    standard_name: EGM96 geoid_height_above_J2_reference_ellipsoid
+    source: EGM96
+    institution: GSFC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed from the EGM96 geoid model with a correction to refer the value to the mean tide system i.e. includes the permanent tide (zero frequency). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('geoid_EGM2008', <class 'netCDF4._netCDF4.Variable'>
+int32 geoid_EGM2008(time)
+    _FillValue: 2147483647
+    long_name: EGM2008 geoid height
+    units: m
+    standard_name: EGM2008 geoid_height_above_J2_reference_ellipsoid
+    source: EGM2008
+    institution: GSFC via BGI
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed from the EGM2008 geoid model with a correction to refer the value to the mean tide system i.e. includes the permanent tide (zero frequency). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('bathymetry_topography', <class 'netCDF4._netCDF4.Variable'>
+int32 bathymetry_topography(time)
+    _FillValue: 2147483647
+    long_name: ocean depth/land elevation
+    units: m
+    source: DTM2000.1
+    institution: GSFC
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('regional_bathy', <class 'netCDF4._netCDF4.Variable'>
+int32 regional_bathy(time)
+    _FillValue: 2147483647
+    long_name: ocean depth, regional models
+    units: m
+    source: WebTide, Etopo2v2
+    institution: MPO-DFO, Etopo2v2
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('topography', <class 'netCDF4._netCDF4.Variable'>
+int32 topography(time)
+    _FillValue: 2147483647
+    long_name: land elevation
+    units: m
+    source: ACE2
+    institution: DMU/ESA
+    coordinates: lon lat
+    comment: See Jason-2 PISTACH User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('inv_bar_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 inv_bar_corr(time)
+    _FillValue: 32767
+    long_name: inverted barometer height correction
+    units: m
+    standard_name: sea_surface_height_correction_due_to_air_pressure_at_low_frequency
+    source: European Center for Medium Range Weather Forecasting
+    institution: ECMWF
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('hf_fluctuations_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 hf_fluctuations_corr(time)
+    _FillValue: 32767
+    long_name: high frequency fluctuations of the sea surface topography
+    units: m
+    standard_name: sea_surface_height_correction_due_to_air_pressure_and_wind_at_high_frequency
+    source: AD
+    institution: LEGOS/CLS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Provided as a correction to the inverted barometer correction (inv_bar_corr)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ocean_tide_sol1', <class 'netCDF4._netCDF4.Variable'>
+int32 ocean_tide_sol1(time)
+    _FillValue: 2147483647
+    long_name: geocentric ocean tide height (solution 1)
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_geocentric_ocean_tide
+    source: GOT00.2
+    institution: GSFC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Solution 1 corresponds to GOT00.2 model. Includes the corresponding loading tide (load_tide_sol1) and equilibrium long-period ocean tide height (ocean_tide_equil). The permanent tide (zero frequency) is not included in this parameter because it is included in the geoid and mean sea surface (geoid, mean_sea_surface). See Jason-2 User Handbook 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ocean_tide_sol2', <class 'netCDF4._netCDF4.Variable'>
+int32 ocean_tide_sol2(time)
+    _FillValue: 2147483647
+    long_name: geocentric ocean tide height (solution 2)
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_geocentric_ocean_tide
+    source: FES2004
+    institution: LEGOS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Solution 2 corresponds to FES2004 model. Includes the corresponding loading tide (load_tide_sol2) and equilibrium long-period ocean tide height (ocean_tide_equil). The permanent tide (zero frequency) is not included in this parameter because it is included in the geoid and mean sea surface (geoid, mean_sea_surface). See Jason-2 User Handbook 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ocean_tide_sol3', <class 'netCDF4._netCDF4.Variable'>
+int32 ocean_tide_sol3(time)
+    _FillValue: 2147483647
+    long_name: geocentric ocean tide height (solution 3)
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_geocentric_ocean_tide
+    source: GOT4.7
+    institution: Ray/GSFC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Solution 1 corresponds to GOT4.7 model. Includes the corresponding loading tide (load_tide_sol1) and equilibrium long-period ocean tide height (ocean_tide_equil). The permanent tide (zero frequency) is not included in this parameter because it is included in the geoid and mean sea surface (geoid, mean_sea_surface). See Jason-2 User Handbook 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ocean_tide_equil', <class 'netCDF4._netCDF4.Variable'>
+int16 ocean_tide_equil(time)
+    _FillValue: 32767
+    long_name: equilibrium long-period ocean tide height
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_equilibrium_ocean_tide
+    source: Cartwright and Taylor tidal potential
+    institution: TBD
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: This value has already been added to the two geocentric ocean tide height values recorded in the product (ocean_tide_sol1 and ocean_tide_sol2). The permanent tide (zero frequency) is not included in this parameter because it is included in the geoid and mean sea surface (geoid, mean_sea_surface). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ocean_tide_non_equil', <class 'netCDF4._netCDF4.Variable'>
+int16 ocean_tide_non_equil(time)
+    _FillValue: 32767
+    long_name: non-equilibrium long-period ocean tide height
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_non_equilibrium_ocean_tide
+    source: FES2004
+    institution: LEGOS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: This parameter is computed as a correction to the parameter ocean_tide_equil. This value can be added to ocean_tide_equil (or ocean_tide_sol1, ocean_tide_sol2) so that the resulting value models the total non equilibrium ocean tide height. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('load_tide_sol1', <class 'netCDF4._netCDF4.Variable'>
+int16 load_tide_sol1(time)
+    _FillValue: 32767
+    long_name: load tide height for geocentric ocean tide (solution 1)
+    units: m
+    source: GOT00.2
+    institution: GSFC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: This value has already been added to the corresponding ocean tide height value recorded in the product (ocean_tide_sol1). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('load_tide_sol2', <class 'netCDF4._netCDF4.Variable'>
+int16 load_tide_sol2(time)
+    _FillValue: 32767
+    long_name: load tide height for geocentric ocean tide (solution 2)
+    units: m
+    source: FES2004
+    institution: LEGOS/CNES
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: This value has already been added to the corresponding ocean tide height value recorded in the product (ocean_tide_sol2). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('load_tide_sol3', <class 'netCDF4._netCDF4.Variable'>
+int16 load_tide_sol3(time)
+    _FillValue: 32767
+    long_name: load tide height for geocentric ocean tide (solution 3)
+    units: m
+    source: GOT4.7
+    institution: Ray/GSFC
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: This value has already been added to the corresponding ocean tide height value recorded in the product (ocean_tide_sol3). See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('solid_earth_tide', <class 'netCDF4._netCDF4.Variable'>
+int16 solid_earth_tide(time)
+    _FillValue: 32767
+    long_name: solid earth tide height
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_earth_tide
+    source: Cartwright and Taylor tidal potential
+    institution: TBD
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Calculated using Cartwright and Tayler tables and consisting of the second and third degree constituents. The permanent tide (zero frequency) is not included. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('pole_tide', <class 'netCDF4._netCDF4.Variable'>
+int16 pole_tide(time)
+    _FillValue: 32767
+    long_name: geocentric pole tide height
+    units: m
+    standard_name: sea_surface_height_amplitude_due_to_pole_tide
+    source: Wahr [1985]
+    institution: TBD
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('Land_cover_class', <class 'netCDF4._netCDF4.Variable'>
+int16 Land_cover_class(time)
+    _FillValue: 32767
+    long_name: Land Cover Class according to UNEP/FAO LCCS definition
+    units: count
+    standard_name: Land Cover Class
+    source: GLOBCOVER
+    institution: ESA/MEDIAS
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wind_speed_model_u', <class 'netCDF4._netCDF4.Variable'>
+int16 wind_speed_model_u(time)
+    _FillValue: 32767
+    long_name: U component of the model wind vector
+    units: m/s
+    standard_name: wind_speed
+    source: European Center for Medium Range Weather Forecasting
+    institution: ECMWF
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wind_speed_model_v', <class 'netCDF4._netCDF4.Variable'>
+int16 wind_speed_model_v(time)
+    _FillValue: 32767
+    long_name: V component of the model wind vector
+    units: m/s
+    standard_name: wind_speed
+    source: European Center for Medium Range Weather Forecasting
+    institution: ECMWF
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Computed at the altimeter time-tag from the interpolation of 2 meteorological fields that surround the altimeter time-tag. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wind_speed_alt', <class 'netCDF4._netCDF4.Variable'>
+int16 wind_speed_alt(time)
+    _FillValue: 32767
+    long_name: altimeter wind speed
+    units: m/s
+    standard_name: wind_speed
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Should not be used over land. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wind_speed_alt_oce3', <class 'netCDF4._netCDF4.Variable'>
+int16 wind_speed_alt_oce3(time)
+    _FillValue: 32767
+    long_name: altimeter wind speed. PISTACH Ocean3 retracking
+    units: m/s
+    standard_name: wind_speed
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Should not be used over land. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wind_speed_rad', <class 'netCDF4._netCDF4.Variable'>
+int16 wind_speed_rad(time)
+    _FillValue: 32767
+    long_name: radiometer wind speed
+    units: m/s
+    standard_name: wind_speed
+    source: [radiometer_sensor_name]
+    institution: [radiometer_sensor_institution]
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Should not be used over land. See Jason-2 User Handbook
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('rad_water_vapor', <class 'netCDF4._netCDF4.Variable'>
+int16 rad_water_vapor(time)
+    _FillValue: 32767
+    long_name: radiometer water vapor content
+    units: gram/cm^2
+    standard_name: atmosphere_water_vapor_content
+    source: [radiometer_sensor_name]
+    institution: [radiometer_sensor_institution]
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Should not be used over land
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('rad_liquid_water', <class 'netCDF4._netCDF4.Variable'>
+int16 rad_liquid_water(time)
+    _FillValue: 32767
+    long_name: radiometer liquid water content
+    units: kg/m^2
+    standard_name: atmosphere_cloud_liquid_water_content
+    source: [radiometer_sensor_name]
+    institution: [radiometer_sensor_institution]
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: Should not be used over land
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ice_range_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 ice_range_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band altimeter range (ice retracking)
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Distance antenna-COG (cog_corr), USO drift correction (uso_corr) and internal path correction (internal_path_delay_corr_ku) included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ice_range_c', <class 'netCDF4._netCDF4.Variable'>
+int32 ice_range_c(time)
+    _FillValue: 2147483647
+    long_name: C band altimeter range (ice retracking)
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Distance antenna-COG (cog_corr), USO drift correction (uso_corr) and internal path correction (internal_path_delay_corr_c) included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ice_sig0_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 ice_sig0_ku(time)
+    _FillValue: 32767
+    long_name: Ku band backscatter coefficient (ice retracking)
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: AGC instrumental errors correction and internal calibration correction (internal_corr_sig0_ku) included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('ice_sig0_c', <class 'netCDF4._netCDF4.Variable'>
+int16 ice_sig0_c(time)
+    _FillValue: 32767
+    long_name: C band backscatter coefficient (ice retracking)
+    units: dB
+    standard_name: surface_backwards_scattering_coefficient_of_radar_wave
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: AGC instrumental errors correction and internal calibration correction (internal_corr_sig0_c) included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_ku(time)
+    _FillValue: 32767
+    long_name: Ku band MQE (ocean retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_c', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_c(time)
+    _FillValue: 32767
+    long_name: C band MQE (ocean retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band MQE (PISTACH Ocean3 retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_oce3_c(time)
+    _FillValue: 32767
+    long_name: C band MQE (PISTACH Ocean3 retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_red3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band MQE (PISTACH Red3 retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('mqe_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 mqe_red3_c(time)
+    _FillValue: 32767
+    long_name: C band MQE (PISTACH Red3 retracking)
+    units: count
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Mean Quadratic Error between the waveforms samples and the corresponding model samples built from the ocean retracking outputs
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('peakiness_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 peakiness_ku(time)
+    _FillValue: 32767
+    long_name: peakiness on Ku band waveforms
+    units: count
+    scale_factor: 0.001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('peakiness_c', <class 'netCDF4._netCDF4.Variable'>
+int16 peakiness_c(time)
+    _FillValue: 32767
+    long_name: peakiness on C band waveforms
+    units: count
+    scale_factor: 0.001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wf_class_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 wf_class_ku(time)
+    _FillValue: 32767
+    long_name: most probable class for the waveform in Ku Band
+    units: count
+    scale_factor: 0.001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('wf_class_c', <class 'netCDF4._netCDF4.Variable'>
+int16 wf_class_c(time)
+    _FillValue: 32767
+    long_name: most probable class for the waveform in C Band
+    units: count
+    scale_factor: 0.001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tracker_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 tracker_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band tracker range
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: Ku-band operating tracker ('Diode+DEM' or 'Median' or 'Slide Gate' tracker). All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_ku), Doppler correction (doppler_corr_ku), modeled instrumental errors correction (modeled_instr_corr_range_ku) and system bias
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tracker_diode_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 tracker_diode_ku(time)
+    _FillValue: 2147483647
+    long_name: tracker range counter from Diode+DEM
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('tracker_c', <class 'netCDF4._netCDF4.Variable'>
+int32 tracker_c(time)
+    _FillValue: 2147483647
+    long_name: C band tracker range
+    units: m
+    standard_name: altimeter_range
+    add_offset: 1300000.0
+    scale_factor: 0.0001
+    coordinates: lon lat
+    comment: C-band operating tracker. All instrumental corrections included, i.e. distance antenna-COG (cog_corr), USO drift correction (uso_corr), internal path correction (internal_path_delay_corr_c), Doppler correction (doppler_corr_c), modeled instrumental errors correction (modeled_instr_corr_range_c) and system bias 
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('uso_corr', <class 'netCDF4._netCDF4.Variable'>
+int32 uso_corr(time)
+    _FillValue: 2147483647
+    long_name: USO frequency correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+    comment: Correction of the USO frequency drift on the altimeter range
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('internal_path_delay_corr_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 internal_path_delay_corr_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band internal path delay correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+    comment: Internal calibration correction on the Ku-band altimeter range
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('internal_path_delay_corr_c', <class 'netCDF4._netCDF4.Variable'>
+int32 internal_path_delay_corr_c(time)
+    _FillValue: 2147483647
+    long_name: C band internal path delay correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+    comment: Internal calibration correction on the C-band altimeter range
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_range_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_range_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_range_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_range_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_range_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_range_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on altimeter range. PISTACH Ocean3 retracking
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_range_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_range_oce3_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on altimeter range. PISTACH Ocean3 retracking
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('doppler_corr_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 doppler_corr_ku(time)
+    _FillValue: 32767
+    long_name: Ku band Doppler correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('doppler_corr_c', <class 'netCDF4._netCDF4.Variable'>
+int16 doppler_corr_c(time)
+    _FillValue: 32767
+    long_name: C band Doppler correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('cog_corr', <class 'netCDF4._netCDF4.Variable'>
+int16 cog_corr(time)
+    _FillValue: 32767
+    long_name: Distance antenna-COG correction on altimeter range
+    units: m
+    scale_factor: 0.0001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_swh_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_swh_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on significant waveheight
+    units: m
+    scale_factor: 0.001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_swh_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_swh_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on significant waveheight
+    units: m
+    scale_factor: 0.001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_swh_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_swh_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on significant waveheight. PISTACH Ocean3 retracking
+    units: m
+    scale_factor: 0.001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_swh_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_swh_oce3_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on significant waveheight. PISTACH Ocean3 retracking
+    units: m
+    scale_factor: 0.001
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_sig0_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_sig0_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_sig0_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_sig0_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_sig0_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_sig0_oce3_ku(time)
+    _FillValue: 32767
+    long_name: Ku band modeled instrumental correction on backscatter coefficient. PISTACH Ocean3 retracking
+    units: dB
+    scale_factor: 0.01
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('modeled_instr_corr_sig0_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int16 modeled_instr_corr_sig0_oce3_c(time)
+    _FillValue: 32767
+    long_name: C band modeled instrumental correction on backscatter coefficient. PISTACH Ocean3 retracking
+    units: dB
+    scale_factor: 0.01
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('k_cal_factor_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 k_cal_factor_ku(time)
+    _FillValue: 2147483647
+    long_name: Scaling factor for Ku band backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: This scaling factor represents the backscatter coefficient for a Ku-band waveform amplitude equal to 1. It accounts for all the parameters of the radar equation excepted the amplitude of the waveform. It is a raw value accounting for atmospheric attenuation (atmos_corr_sig0_ku) only. AGC instrumental errors correction, internal calibration correction, modeled instrumental errors correction and system bias are not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('k_cal_factor_c', <class 'netCDF4._netCDF4.Variable'>
+int32 k_cal_factor_c(time)
+    _FillValue: 2147483647
+    long_name: Scaling factor for C band backscatter coefficient
+    units: dB
+    scale_factor: 0.01
+    coordinates: lon lat
+    comment: This scaling factor represents the backscatter coefficient for a C-band waveform amplitude equal to 1. It accounts for all the parameters of the radar equation excepted the amplitude of the waveform. It is a raw value accounting for atmospheric attenuation (atmos_corr_sig0_c) only. AGC instrumental errors correction, internal calibration correction, modeled instrumental errors correction and system bias not included
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('epoch_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 epoch_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band epoch (ocean retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band width of the leading edge (ocean retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band amplitude (ocean retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band thermal noise (ocean retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('epoch_c', <class 'netCDF4._netCDF4.Variable'>
+int32 epoch_c(time)
+    _FillValue: 2147483647
+    long_name: C band epoch (ocean retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_c', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_c(time)
+    _FillValue: 2147483647
+    long_name: C band width of the leading edge (ocean retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_c', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_c(time)
+    _FillValue: 2147483647
+    long_name: C band amplitude (ocean retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_c', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_c(time)
+    _FillValue: 2147483647
+    long_name: C band thermal noise (ocean retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('epoch_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 epoch_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band epoch (PISTACH Ocean3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band width of the leading edge (PISTACH Ocean3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band amplitude (PISTACH Ocean3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_oce3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_oce3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band thermal noise (PISTACH Ocean3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('epoch_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 epoch_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: C band epoch (PISTACH Ocean3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: C band width of the leading edge (PISTACH Ocean3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: C band amplitude (PISTACH Ocean3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_oce3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_oce3_c(time)
+    _FillValue: 2147483647
+    long_name: C band thermal noise (PISTACH Ocean3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_ice1_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_ice1_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band amplitude (Ice1 retracking PISTACH) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_ice1_c', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_ice1_c(time)
+    _FillValue: 2147483647
+    long_name: C band amplitude (Ice1 retracking PISTACH) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_red3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band amplitude (Red3 retracking PISTACH) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('amplitude_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 amplitude_red3_c(time)
+    _FillValue: 2147483647
+    long_name: C band amplitude (Red3 retracking PISTACH) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_red3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band width of the leading edge (PISTACH Red3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('width_leading_edge_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 width_leading_edge_red3_c(time)
+    _FillValue: 2147483647
+    long_name: C band width of the leading edge (PISTACH Red3 retracking)
+    units: s
+    scale_factor: 1e-15
+    coordinates: lon lat
+    comment: The width of the leading edge corresponds to the so-called composite sigma (SigmaC)
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_red3_ku', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_red3_ku(time)
+    _FillValue: 2147483647
+    long_name: Ku band thermal noise (PISTACH Red3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+), 
+
+('thermal_noise_red3_c', <class 'netCDF4._netCDF4.Variable'>
+int32 thermal_noise_red3_c(time)
+    _FillValue: 2147483647
+    long_name: C band thermal noise (PISTACH Red3 retracking) [FFT power unit]
+    units: count
+    scale_factor: 1e-06
+    coordinates: lon lat
+unlimited dimensions: 
+current shape = (12999,)
+filling off
+)])
