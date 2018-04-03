@@ -547,7 +547,9 @@ TmSric = altprocess(48.402, 43.271, 5000, 48.33, 48.46, 43.15, 43.35, 83, JA2_di
    
 #TmSric = altprocess(65.902, -129.045, 100000, 65, 66, -130, -127, 251, JA2_dir='D:/JASON2/JASON_2_PH/')
 TS = time_series(TmSric)
-#TS_show = TS
+TS_show = TS
+test = TmSric['amplitude_ku'].tolist()
+#test = [x for x in test if x != 2147483647]
 
 #%%    
 #TS = TS.drop_duplicates(subset=['Year','Month','Day'], keep=False)
@@ -668,8 +670,7 @@ _, TS_final_c = outlier_correction(TS, col = 26, kr = 2.9, rep = 1)
 #TS_final = TS_outcor[['Date Detail','SSH_ice3_ku_median','SSH_ice3_ku_std']].copy()
 
 #%%
-        
-#
+
 ##def plot_ku_c():
 #height_res_ku = TS_final_ku.iloc[:, 1].as_matrix()
 #height_res_c = TS_final_c.iloc[:, 1].as_matrix()
@@ -685,26 +686,26 @@ _, TS_final_c = outlier_correction(TS, col = 26, kr = 2.9, rep = 1)
 #plt.show()
 
 #%%
-#def plot_with_std():
-index1 = TS_final_ku.iloc[:,2] > 0.7
-index1 = index1[index1].index.tolist()
-#index1 = index1.tolist()
-index2 = TS_final_ku.iloc[:,2] < 0.7
-index2 = index2[index2].index.tolist()
-#index2 = index2.tolist()
-mean_value = np.nanmean(TS_final_ku.iloc[index2, 2])
-TS_final_ku.iloc[index1, 2] = mean_value
-
-height_res_ku = TS_final_ku.iloc[:, 1].as_matrix()
-height_res_ku_upper = height_res_ku + TS_final_ku.iloc[:, 2]
-height_res_ku_lower = height_res_ku - TS_final_ku.iloc[:, 2]
-time_res = TS_final_ku['Date Detail'].as_matrix()
-#time_res = TS_final_ku['Date Detail'].tolist()
-
-plt.plot(time_res, height_res_ku, 'g')
-#plt.plot(time_res, height_res_ku_upper, 'white')
-#plt.plot(time_res, height_res_ku_lower, 'white')
-plt.fill_between(time_res, height_res_ku_upper, height_res_ku_lower, facecolor='silver')
-plt.ylabel('Water Level [m]', fontsize=11) 
-plt.title('Don River')
-plt.show()
+##def plot_with_std():
+#index1 = TS_final_ku.iloc[:,2] > 0.7
+#index1 = index1[index1].index.tolist()
+##index1 = index1.tolist()
+#index2 = TS_final_ku.iloc[:,2] < 0.7
+#index2 = index2[index2].index.tolist()
+##index2 = index2.tolist()
+#mean_value = np.nanmean(TS_final_ku.iloc[index2, 2])
+#TS_final_ku.iloc[index1, 2] = mean_value
+#
+#height_res_ku = TS_final_ku.iloc[:, 1].as_matrix()
+#height_res_ku_upper = height_res_ku + TS_final_ku.iloc[:, 2]
+#height_res_ku_lower = height_res_ku - TS_final_ku.iloc[:, 2]
+#time_res = TS_final_ku['Date Detail'].as_matrix()
+##time_res = TS_final_ku['Date Detail'].tolist()
+#
+#plt.plot(time_res, height_res_ku, 'g')
+##plt.plot(time_res, height_res_ku_upper, 'white')
+##plt.plot(time_res, height_res_ku_lower, 'white')
+#plt.fill_between(time_res, height_res_ku_upper, height_res_ku_lower, facecolor='silver')
+#plt.ylabel('Water Level [m]', fontsize=11) 
+#plt.title('Don River')
+#plt.show()
